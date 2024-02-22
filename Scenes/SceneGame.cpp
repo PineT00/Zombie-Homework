@@ -4,6 +4,7 @@
 #include "TileMap.h"
 #include "Zombie.h"
 #include "ZombieSpawner.h"
+#include "Bullet.h"
 #include "UiScore.h"
 #include "HealthBar.h"
 
@@ -79,11 +80,34 @@ void SceneGame::Exit()
     Scene::Exit();
 }
 
+void SceneGame::Shoot()
+{
+    Bullet* bullet = nullptr;
+    if (unUsedBulletList.empty())
+    {
+        bullet = new Bullet("");
+        bullet->Init();
+    }
+    else
+    {
+        bullet = unUsedBulletList.front();
+        unUsedBulletList.pop_front();
+    }
+
+    bullet->SetActive(true);
+    bullet->SetPosition(player->GetPosition());
+    bullet->Fire(player->GetLook(), 800.f);
+    usedBulletList.push_back(bullet);
+    AddGo(bullet);
+}
+
 void SceneGame::Update(float dt)
 {
     Scene::Update(dt);
 
     worldView.setCenter(player->GetPosition());
+
+
 
     if (InputMgr::GetKeyDown(sf::Keyboard::Space))
     {
@@ -96,6 +120,7 @@ void SceneGame::Update(float dt)
     //healthBar->Damagmed(player->hp);
     if (InputMgr::GetMouseButtonDown(sf::Mouse::Left))
     {
+        Shoot();
     }
 }
 

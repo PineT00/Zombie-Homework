@@ -30,5 +30,7 @@ public:
 
     void Update(float dt) override;
     void Draw(sf::RenderWindow& window) override;
+
+    const sf::Vector2f GetLook() const { return look; }
 };
 
