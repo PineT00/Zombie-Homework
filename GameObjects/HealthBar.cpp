@@ -32,6 +32,12 @@ void HealthBar::SetOrigin(const sf::Vector2f& newOrigin)
 	healthBar.setOrigin(newOrigin);
 }
 
+void HealthBar::Damagmed(float dagame)
+{
+	healthBarCurrSize.x -= dagame;
+	healthBar.setSize(healthBarCurrSize);
+}
+
 void HealthBar::SetPosition(const sf::Vector2f pos)
 {
 	healthBar.setPosition(pos);
@@ -58,10 +64,14 @@ void HealthBar::Reset()
 void HealthBar::Update(float dt)
 {
 	GameObject::Update(dt);
+
+
+
 }
 
 void HealthBar::Draw(sf::RenderWindow& window)
 {
+
 	//GameObject::Draw(window);
 	window.draw(healthBar);
 }

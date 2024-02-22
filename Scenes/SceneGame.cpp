@@ -35,14 +35,14 @@ void SceneGame::Init()
 
     UiScore* scoreUi = new UiScore("Ui Score");
     scoreUi->Set(RES_MGR_FONT.Get("fonts/zombiecontrol.ttf"), "asdad", 50, sf::Color::White);
-    scoreUi->SetPosition({ -1920.f * 0.5f, -1080 * 0.5f });
-    AddGo(scoreUi);
+    //scoreUi->SetPosition({ -1920.f * 0.5f, -1080 * 0.5f });
+    AddGo(scoreUi, Ui);
 
-    HealthBar* healthBar = new HealthBar("Health Bar");
+    healthBar = new HealthBar("Health Bar");
     healthBar->healthBarMaxSize = { 400.f, 80.f };
     healthBar->SetOrigin(Origins::MC);
-    healthBar->SetPosition({ -200, 400 });
-    AddGo(healthBar);
+    healthBar->SetPosition({ 1920.f * 0.5 - 200, 1000 });
+    AddGo(healthBar, Ui);
     healthBar->sortLayer = 1;
 
     Scene::Init();
@@ -85,7 +85,6 @@ void SceneGame::Update(float dt)
 
     worldView.setCenter(player->GetPosition());
 
-
     if (InputMgr::GetKeyDown(sf::Keyboard::Space))
     {
         //테스트. 스페이스를 누르면 배경의 레이어가 위로 올라온다
@@ -94,6 +93,7 @@ void SceneGame::Update(float dt)
         ResortGo(tileMap);
     }
 
+    //healthBar->Damagmed(player->hp);
     if (InputMgr::GetMouseButtonDown(sf::Mouse::Left))
     {
     }

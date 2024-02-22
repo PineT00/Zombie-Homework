@@ -4,6 +4,7 @@
 class Player;
 class TileMap;
 class ZombieSpawner;
+class HealthBar;
 
 
 
@@ -13,6 +14,8 @@ protected:
 	Player* player = nullptr;
 	TileMap* tileMap = nullptr;
 	std::vector<ZombieSpawner*> spawner;
+
+	HealthBar* healthBar = nullptr;
 
 
 public:

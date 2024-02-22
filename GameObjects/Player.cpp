@@ -60,23 +60,6 @@ void Player::Update(float dt)
         PlayerMove(dt);
     }
 
-    if (stageBounds.top >= position.y)
-    {
-        position.y = stageBounds.top;
-    }
-    if (stageBounds.height <= position.y)
-    {
-        direction.y = stageBounds.height;
-    }
-    if (stageBounds.left >= position.x)
-    {
-        direction.x = stageBounds.left;
-    }
-    if (stageBounds.width <= position.x)
-    {
-        direction.x = stageBounds.width;
-    }
-
     if (hp == 0)
     {
         isDead = true;
