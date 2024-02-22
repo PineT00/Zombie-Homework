@@ -8,7 +8,7 @@ class Bullet :
 protected:
 
 public:
-	Bullet();
+	Bullet(const std::string& name = "");
 
 	void Init();
 	void Release();
