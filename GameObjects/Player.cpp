@@ -91,3 +91,9 @@ void Player::Draw(sf::RenderWindow& window)
 {
     SpriteGo::Draw(window);
 }
+
+void Player::Fire()
+{
+
+
+}

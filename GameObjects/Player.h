@@ -16,6 +16,11 @@ protected:
     bool isDead = false;
 
     //TileMap* tileMap;
+
+    bool isFiring = false;
+    float fireInterval = 0.5f;
+    float fireTimer = 0.f;
+
 public:
     sf::FloatRect stageBounds{ { 0.f, 0.f }, { 500.f, 500.f } };
 
@@ -36,6 +41,8 @@ public:
 
     void Update(float dt) override;
     void Draw(sf::RenderWindow& window) override;
+
+    void Fire();
 
     const sf::Vector2f GetLook() const { return look; }
     bool GetIsDead() { return isDead; }
