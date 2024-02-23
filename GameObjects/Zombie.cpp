@@ -58,6 +58,7 @@ void Zombie::Reset()
     //tileMap = dynamic_cast<TileMap*>(SCENE_MGR.GetCurrentScene()->FindGo("Background"));
     sceneGame = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrentScene());
     //SCENE_MGR.GetCurrentScene()->RemoveGo(this);
+    attackTimer = 0.f;
 }
 
 
@@ -89,13 +90,13 @@ void Zombie::Update(float dt)
 
 void Zombie::FixedUpdate(float dt)
 {
+    attackTimer += dt;
     if (GetGlobalBounds().intersects(player->GetGlobalBounds()))
     {
-        if (attckTimer > attackInterval)
+        if (attackTimer > attackInterval)
         {
             player->OnDamage(damage);
-            attckTimer = 0.f;
-            std::cout << hp << std::endl;
+            attackTimer = 0.f;
         }
     }
 }

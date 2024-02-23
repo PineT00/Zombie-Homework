@@ -37,6 +37,7 @@ void Player::Reset()
     hp = hpMax;
     isDead = false;
     noDamageTime = 0.f;
+    isNoDamage = false;
 }
 
 void Player::PlayerMove(float dt)
@@ -102,13 +103,13 @@ void Player::Update(float dt)
 
 void Player::FixedUpdate(float dt)
 {
-    noDamageTime += dt;
-
-    if (noDamageTime > noDamageInterval)
+    if (isNoDamage)
     {
-        isNoDamage = false;
-        OnDamage(10);
-        //std::cout << hp << std::endl;
+        noDamageTime += dt;
+        if (noDamageTime > noDamageInterval)
+        {
+            isNoDamage = false;
+        }
     }
 }
 

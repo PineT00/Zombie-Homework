@@ -42,7 +42,7 @@ protected:
 
     int damage = 10;
     float attackInterval;
-    float attckTimer = 0.f;
+    float attackTimer = 0.f;
 
 public:
 
