@@ -24,6 +24,10 @@ protected:
 
 	sf::Time realDeltaTime;
 	sf::Time deltaTime;
+	
+	sf::Time fixedDeltaTime;
+
+	float fixedUpdateTime = 1.f / 50.f; //1초당 50번 fixedUpdate를 수행
 
 public:
 	sf::RenderWindow& GetWindow() { return window; }	// !!

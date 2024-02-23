@@ -4,7 +4,7 @@
 
 Zombie* Zombie::Create(Types zombieType)
 {
-    Zombie* zombie = new Zombie();
+    Zombie* zombie = new Zombie("Zombie");
     zombie->type = zombieType;
 
     switch (zombieType)
@@ -13,6 +13,9 @@ Zombie* Zombie::Create(Types zombieType)
         zombie->texturId = "graphics/bloater.png";
         zombie->maxHp = 50;
         zombie->speed = 50;
+        zombie->damage;
+        //
+        //
         break;
     case Zombie::Types::Chaser:
         zombie->texturId = "graphics/chaser.png";
@@ -49,7 +52,8 @@ void Zombie::Release()
 void Zombie::Reset()
 {
     SpriteGo::Reset();
-
+    hp = maxHp;
+    isAlive = true;
     player = dynamic_cast<Player*>(SCENE_MGR.GetCurrentScene()->FindGo("Player"));
     //tileMap = dynamic_cast<TileMap*>(SCENE_MGR.GetCurrentScene()->FindGo("Background"));
     sceneGame = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrentScene());
@@ -61,37 +65,65 @@ void Zombie::Update(float dt)
 {
     SpriteGo::Update(dt);
 
+    if (!isAlive)
+        return;
+
     look = player->GetPosition() - position;
     Utils::Normalize(look); 
 
     SetRotation(Utils::Angle(look));
 
-
     const sf::FloatRect& zombieBounds = sprite.getGlobalBounds();
-
-    if (Utils::Distance(position, player->GetPosition()) < 10.f)
-    {
-        player->hp -= 10.f;
-        //SCENE_MGR.GetCurrentScene()->RemoveGo(this);
-    }
-
-
-    //SCENE_MGR.GetCurrentScene()->RemoveGo(this);
 
     sf::Vector2f pos = position + look * speed * dt;
 
-
-    
     if (sceneGame != nullptr)
     {
         pos = sceneGame->ClampByTileMap(pos);
     }
     SetPosition(pos);
-
     //Translate(look * speed * dt);
+
+    //SCENE_MGR.GetCurrentScene()->RemoveGo(this);
+}
+
+void Zombie::FixedUpdate(float dt)
+{
+    if (GetGlobalBounds().intersects(player->GetGlobalBounds()))
+    {
+        if (attckTimer > attackInterval)
+        {
+            player->OnDamage(damage);
+            attckTimer = 0.f;
+            std::cout << hp << std::endl;
+        }
+    }
 }
 
 void Zombie::Draw(sf::RenderWindow& window)
 {
     SpriteGo::Draw(window);
+}
+
+void Zombie::OnDamage(int damage)
+{
+    if (!isAlive)
+        return;
+
+    hp -= damage;
+    if (hp <= 0)
+    {
+        hp = 0;
+        OnDie();
+    }
+}
+
+void Zombie::OnDie()
+{
+    if (!isAlive)
+        return;
+
+    isAlive = false;
+    SetActive(false);
+    sceneGame->RemoveGo(this);
 }

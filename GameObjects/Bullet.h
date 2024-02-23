@@ -8,6 +8,7 @@ class Bullet : public SpriteGo
 protected:
 	sf::Vector2f direction;
 	float speed;
+	int damage;
 
 	SceneGame* sceneGame;
 
@@ -15,10 +16,12 @@ public:
 	Bullet(const std::string& name = "");
 	~Bullet() override = default;
 
-	void Fire(const sf::Vector2f& dir, float s);
+	void Fire(const sf::Vector2f& dir, float s, int d);
 
-	virtual void Init();
-	virtual void Reset();
-	virtual void Update(float dt);
+	void Init() override;
+	void Reset() override;
+	void Update(float dt) override;
+	void FixedUpdate(float dt) override;
+
 };
 

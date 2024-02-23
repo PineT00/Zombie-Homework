@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
-#include "player.h"
+
+class Player;
 
 class HealthBar :
     public GameObject
@@ -8,6 +9,7 @@ class HealthBar :
 protected:
 
 public:
+	Player* player;
 
 	sf::RectangleShape healthBar;
 	sf::Vector2f healthBarMaxSize;

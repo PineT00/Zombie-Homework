@@ -5,6 +5,7 @@ class SpriteGo;
 class TextGo;
 class Player;
 class TileMap;
+class Zombie;
 class ZombieSpawner;
 class TileMap;
 class Bullet;
@@ -28,6 +29,7 @@ protected:
 	Status currStatus;
 
 	std::vector<ZombieSpawner*> spawner;
+	std::list<GameObject*> zombieList;
 
 	TextGo* uiStates = nullptr;
 	TextGo* uiZombieNum = nullptr;
@@ -46,6 +48,10 @@ public:
 	SceneGame(SceneIds id);
 	~SceneGame() override = default;
 
+	const std::list<GameObject*>& GetZombieList() const { return zombieList; }
+
+	bool IsInTileMap(const sf::Vector2f& point);
+
 	void SetStatus(Status newStatus);
 	Status GetStatus() const { return currStatus; }
 
@@ -53,8 +59,6 @@ public:
 
 	void Init() override;
 	void Release() override;
-
-	void Shoot();
 
 	void Enter() override;
 	void Exit() override;

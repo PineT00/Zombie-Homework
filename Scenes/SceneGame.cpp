@@ -110,26 +110,6 @@ void SceneGame::Exit()
     Scene::Exit();
 }
 
-void SceneGame::Shoot()
-{
-    Bullet* bullet = nullptr;
-    if (unUsedBulletList.empty())
-    {
-        bullet = new Bullet("");
-        bullet->Init();
-    }
-    else
-    {
-        bullet = unUsedBulletList.front();
-        unUsedBulletList.pop_front();
-    }
-
-    bullet->SetActive(true);
-    bullet->SetPosition(player->GetPosition());
-    bullet->Fire(player->GetLook(), 1000.f);
-    usedBulletList.push_back(bullet);
-    AddGo(bullet);
-}
 
 void SceneGame::Update(float dt)
 {
@@ -164,6 +144,8 @@ void SceneGame::UpdateAwake(float dt)
 
 void SceneGame::UpdateGame(float dt)
 {
+    FindGoAll("Zombie", zombieList, Layers::World);
+
     if (InputMgr::GetKeyDown(sf::Keyboard::Space))
     {
         //테스트. 스페이스를 누르면 배경의 레이어가 위로 올라온다
@@ -172,11 +154,6 @@ void SceneGame::UpdateGame(float dt)
         ResortGo(tileMap);
     }
     
-    //healthBar->Damagmed(player->hp);
-    if (InputMgr::GetMouseButtonDown(sf::Mouse::Left))
-    {
-        Shoot();
-    }
     if (player->GetIsDead())
     {
         SetStatus(Status::GameOver);
@@ -210,8 +187,17 @@ void SceneGame::Draw(sf::RenderWindow& window)
     Scene::Draw(window);
 }
 
+bool SceneGame::IsInTileMap(const sf::Vector2f& point)
+{
+    sf::FloatRect rect = tileMap->GetGlobalBounds();
+    rect = Utils::ResizeRect(rect, tileMap->GetCellSize() * -2.f);
+
+    return rect.contains(point);
+}
+
 void SceneGame::SetStatus(Status newStatus)
 {
+    FindGoAll("Zombie", zombieList, Layers::World);
     Status prevStatus = currStatus;
     currStatus = newStatus;
 

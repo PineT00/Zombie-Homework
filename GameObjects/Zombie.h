@@ -22,16 +22,27 @@ public:
     SceneGame* sceneGame = nullptr;
     //TileMap* tileMap;
 
+
+
+
 protected:
     sf::Vector2f direction = { 0.f, 0.f };
     sf::Vector2f look = { 1.0f, 0.f };
+    
+    Player* player;
 
     Types type;
     int maxHp;
     float speed;
     int hp;
+    
+    bool isAlive;
+    //bool isNoDamage;
+    //float noDamageTimer = 0.f;
 
-    Player* player;
+    int damage = 10;
+    float attackInterval;
+    float attckTimer = 0.f;
 
 public:
 
@@ -43,7 +54,11 @@ public:
     void Reset() override;
 
     void Update(float dt) override;
+    void FixedUpdate(float dt) override;
     void Draw(sf::RenderWindow& window) override;
+
+    void OnDamage(int damage);
+    void OnDie();
 
 };
 

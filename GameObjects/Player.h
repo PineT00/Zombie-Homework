@@ -3,6 +3,7 @@
 
 //class TileMap;
 class SceneGame;
+class Zombie;
 
 class Player : public SpriteGo
 {
@@ -12,14 +13,19 @@ protected:
     float speed = 300.f;
 
     SceneGame* sceneGame = nullptr;
+    Zombie* zombie = nullptr;
 
     bool isDead = false;
 
-    //TileMap* tileMap;
-
     bool isFiring = false;
-    float fireInterval = 0.5f;
+    float fireInterval = 0.1f;
     float fireTimer = 0.f;
+    float bulletSpeed = 1000.f;
+    int bulletDamage = 10;
+
+    bool isNoDamage;
+    float noDamageInterval = 0.5f;
+    float noDamageTime = 0.f;
 
 public:
     sf::FloatRect stageBounds{ { 0.f, 0.f }, { 500.f, 500.f } };
@@ -37,14 +43,22 @@ public:
 
     void PlayerMove(float dt);
 
-    void PlayerDead();
+
 
     void Update(float dt) override;
+
+    void FixedUpdate(float dt) override;
+    
     void Draw(sf::RenderWindow& window) override;
 
     void Fire();
 
     const sf::Vector2f GetLook() const { return look; }
+
+    void OnDamage(int damage);
+
+    void PlayerDead();
+
     bool GetIsDead() { return isDead; }
 };
 

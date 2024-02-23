@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "HealthBar.h"
+#include "Player.h"
 
 HealthBar::HealthBar(const std::string& name)
 	:GameObject(name)
@@ -32,9 +33,9 @@ void HealthBar::SetOrigin(const sf::Vector2f& newOrigin)
 	healthBar.setOrigin(newOrigin);
 }
 
-void HealthBar::Damagmed(float dagame)
+void HealthBar::Damagmed(float damage)
 {
-	healthBarCurrSize.x -= dagame;
+	healthBarCurrSize.x -= damage;
 	healthBar.setSize(healthBarCurrSize);
 }
 
