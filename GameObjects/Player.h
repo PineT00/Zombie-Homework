@@ -1,7 +1,8 @@
 #pragma once
 #include "SpriteGo.h"
 
-class TileMap;
+//class TileMap;
+class SceneGame;
 
 class Player : public SpriteGo
 {
@@ -10,9 +11,11 @@ protected:
     sf::Vector2f look = { 1.0f, 0.f };
     float speed = 300.f;
 
+    SceneGame* sceneGame = nullptr;
+
     bool isDead = false;
 
-    TileMap* tileMap;
+    //TileMap* tileMap;
 public:
     sf::FloatRect stageBounds{ { 0.f, 0.f }, { 500.f, 500.f } };
 
