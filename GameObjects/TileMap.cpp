@@ -6,6 +6,20 @@ TileMap::TileMap(const std::string& name)
 {
 }
 
+sf::FloatRect TileMap::GetLocalBounds()
+{
+    sf::FloatRect bounds = va.getBounds(); //네 정점을 기준으로 바운드 리턴
+    bounds.left = origin.x;
+    bounds.top = origin.y;
+    return bounds;
+}
+
+sf::FloatRect TileMap::GetGlobalBounds()
+{
+    sf::FloatRect bounds = va.getBounds();
+    return transform.transformRect(bounds);
+}
+
 void TileMap::Set(sf::Vector2i& count, sf::Vector2f& size)
 {
     cellCount = count;
@@ -81,14 +95,6 @@ void TileMap::SetOrigin(Origins preset)
     origin.x = bound.width * ((int)originPreset % 3) * 0.5f;
     origin.y = bound.height * ((int)originPreset / 3) * 0.5f;
     UpdateTransform();
-
-
-    //auto delta = prevOrigin - origin;
-    //for (int i = 0; i < va.getVertexCount(); ++i)
-    //{
-    //    va[i].position += delta;
-    //}
-    //originPreset = preset;
 }
 
 void TileMap::SetOrigin(const sf::Vector2f& newOrigin)
@@ -160,6 +166,8 @@ void TileMap::Release()
 void TileMap::Reset()
 {
     GameObject::Reset();
+
+    
 }
 
 void TileMap::Update(float dt)

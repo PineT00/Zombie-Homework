@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "Player.h"
+#include "TileMap.h"
+#include "SceneGame.h"
 
 Player::Player(const std::string& name)
     : SpriteGo(name)
@@ -23,7 +25,12 @@ void Player::Release()
 void Player::Reset()
 {
     SpriteGo::Reset();
+
+    tileMap = dynamic_cast<TileMap*>(SCENE_MGR.GetCurrentScene()->FindGo("Background"));
+
+    SetTexture("graphics/player.png");
     hp = hpMax;
+    isDead = false;
 }
 
 void Player::PlayerMove(float dt)
@@ -34,8 +41,30 @@ void Player::PlayerMove(float dt)
     {
         Utils::Normalize(direction);
     }
-    //SetPosition(position + direction * speed * dt);
-    Translate(direction * speed * dt);
+
+    sf::Vector2f pos = position + direction * speed * dt;
+    if (tileMap != nullptr)
+    {
+        /*sf::FloatRect tileMapBounds = tileMap->GetGlobalBounds();
+        const sf::Vector2f tileSize = tileMap->GetCellSize();
+
+
+        tileMapBounds.left += tileSize.x;
+        tileMapBounds.top += tileSize.y;
+        tileMapBounds.width -= tileSize.x * 2.f;
+        tileMapBounds.height -= tileSize.y * 2.f;*/
+
+        //pos.x = Utils::Clamp(pos.x, tileMapBounds.left, tileMapBounds.left + tileMapBounds.width);
+        //pos.y = Utils::Clamp(pos.y, tileMapBounds.top, tileMapBounds.top + tileMapBounds.height);
+
+        SceneGame* sceneGame = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrentScene());
+        if (sceneGame != nullptr)
+        {
+            pos = sceneGame->ClampByTileMap(pos);
+        }
+        SetPosition(pos);
+    }
+
 }
 
 void Player::PlayerDead()
@@ -65,6 +94,8 @@ void Player::Update(float dt)
         isDead = true;
         PlayerDead();
     }
+
+
 }
 
 

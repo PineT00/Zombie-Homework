@@ -21,7 +21,7 @@ void Bullet::SetOrigin(Origins preset)
 {
 	if (preset == Origins::Custom)
 	{
-		preset = Origins::TL;
+		preset = Origins::MC;
 	}
 	originPreset = preset;
 	origin = Utils::SetOrigin(shape, originPreset);
@@ -48,8 +48,8 @@ void Bullet::Fire(sf::Vector2f d, float s)
 void Bullet::Init()
 {
 	GameObject::Init();
-	shape.setRadius(10.f);
-	shape.setFillColor(sf::Color::White);
+	shape.setRadius(8.f);
+	shape.setFillColor(sf::Color::Yellow);
 	Utils::SetOrigin(shape, Origins::MC);
 }
 

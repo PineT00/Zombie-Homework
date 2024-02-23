@@ -6,6 +6,16 @@ TextGo::TextGo(const std::string& name)
 {
 }
 
+sf::FloatRect TextGo::GetLocalBounds()
+{
+	return text.getLocalBounds();
+}
+
+sf::FloatRect TextGo::GetGlobalBounds()
+{
+	return text.getGlobalBounds();
+}
+
 void TextGo::SetString(const std::string& str)
 {
 	text.setString(str);

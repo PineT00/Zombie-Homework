@@ -1,6 +1,7 @@
 #pragma once
 #include "SpriteGo.h"
 
+class TileMap;
 
 class Player : public SpriteGo
 {
@@ -10,6 +11,8 @@ protected:
     float speed = 300.f;
 
     bool isDead = false;
+
+    TileMap* tileMap;
 public:
     sf::FloatRect stageBounds{ { 0.f, 0.f }, { 500.f, 500.f } };
 
@@ -32,5 +35,6 @@ public:
     void Draw(sf::RenderWindow& window) override;
 
     const sf::Vector2f GetLook() const { return look; }
+    bool GetIsDead() { return isDead; }
 };
 

@@ -10,6 +10,23 @@ float Utils::Clamp(float v, float min, float max)
 	return v;
 }
 
+sf::Vector2f Utils::Clamp(const sf::Vector2f& v, const sf::FloatRect& rect)
+{
+	return sf::Vector2f(Clamp(v.x, rect.left, rect.left + rect.width),
+		Clamp(v.y, rect.top, rect.top + rect.height));
+}
+
+sf::FloatRect Utils::ResizeRect(const sf::FloatRect& rect, const sf::Vector2f& delta)
+{
+	sf::FloatRect newRect = rect;
+	newRect.width += delta.x;
+	newRect.height += delta.y;
+	newRect.left -= delta.x * 0.5f;
+	newRect.top -= delta.y * 0.5f;
+
+	return newRect;
+}
+
 float Utils::RandomValue()
 {
 	return (float)rand() / RAND_MAX;

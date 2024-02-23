@@ -6,6 +6,16 @@ SpriteGo::SpriteGo(const std::string& name)
 {
 }
 
+sf::FloatRect SpriteGo::GetLocalBounds()
+{
+	return sprite.getLocalBounds();
+}
+
+sf::FloatRect SpriteGo::GetGlobalBounds()
+{
+	return sprite.getGlobalBounds();
+}
+
 void SpriteGo::SetTexture(const std::string& textureId)
 {
 	this->texturId = textureId;

@@ -9,6 +9,9 @@ protected:
 public:
 	TextGo(const std::string& name = "");
 
+	sf::FloatRect GetLocalBounds() override;
+	sf::FloatRect GetGlobalBounds() override;
+
 	void SetString(const std::string& str);
 	void Set(const sf::Font& texture, const std::string& str, int size, const sf::Color& color);
 

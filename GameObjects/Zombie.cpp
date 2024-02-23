@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Zombie.h"
+#include "TileMap.h"
 
 Zombie* Zombie::Create(Types zombieType)
 {
@@ -50,6 +51,8 @@ void Zombie::Reset()
     SpriteGo::Reset();
 
     player = dynamic_cast<Player*>(SCENE_MGR.GetCurrentScene()->FindGo("Player"));
+    tileMap = dynamic_cast<TileMap*>(SCENE_MGR.GetCurrentScene()->FindGo("Background"));
+    //SCENE_MGR.GetCurrentScene()->RemoveGo(this);
 }
 
 
@@ -61,7 +64,7 @@ void Zombie::Update(float dt)
     Utils::Normalize(look); 
 
     SetRotation(Utils::Angle(look));
-    Translate(look * speed * dt);
+
 
     const sf::FloatRect& zombieBounds = sprite.getGlobalBounds();
 
@@ -71,6 +74,25 @@ void Zombie::Update(float dt)
         //SCENE_MGR.GetCurrentScene()->RemoveGo(this);
     }
 
+
+    //SCENE_MGR.GetCurrentScene()->RemoveGo(this);
+
+    sf::Vector2f pos = position + look * speed * dt;
+
+    if (tileMap != nullptr)
+    {
+        sf::FloatRect tileMapBounds = tileMap->GetGlobalBounds();
+        const sf::Vector2f tileSize = tileMap->GetCellSize();
+        tileMapBounds.left += tileSize.x;
+        tileMapBounds.top += tileSize.y;
+        tileMapBounds.width -= tileSize.x * 2.f;
+        tileMapBounds.height -= tileSize.y * 2.f;
+
+        pos.x = Utils::Clamp(pos.x, tileMapBounds.left, tileMapBounds.left + tileMapBounds.width);
+        pos.y = Utils::Clamp(pos.y, tileMapBounds.top, tileMapBounds.top + tileMapBounds.height);
+    }
+    SetPosition(pos);
+    //Translate(look * speed * dt);
 }
 
 void Zombie::Draw(sf::RenderWindow& window)

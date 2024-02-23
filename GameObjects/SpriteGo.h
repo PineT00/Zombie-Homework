@@ -9,6 +9,10 @@ protected:
 public:
 	SpriteGo(const std::string& name = "");
 
+	sf::FloatRect GetLocalBounds() override; 
+	sf::FloatRect GetGlobalBounds() override;
+
+
 	void SetTexture(const std::string& textureId);
 
 	void SetPosition(const sf::Vector2f& pos) override;

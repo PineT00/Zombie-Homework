@@ -8,7 +8,6 @@ ZombieSpawner::ZombieSpawner(const std::string& name)
 
 void ZombieSpawner::Init()
 {
-
 	GameObject::Init();
 }
 
@@ -47,12 +46,14 @@ void ZombieSpawner::Update(float dt)
 
 		for (int i = 0; i < spawnCount; ++i)
 		{
-			sf::Vector2f pos = position + Utils::RandomInUnitCircle() * radius;
 			Zombie::Types zombieType = zombieTypes[Utils::RandomRange(0, zombieTypes.size())];
 
 			Zombie* zombie = Zombie::Create(zombieType);
 			zombie->Init();
 			zombie->Reset();
+
+			sf::Vector2f pos = position + Utils::RandomInUnitCircle() * radius;
+
 			zombie->SetPosition(pos);
 			SCENE_MGR.GetCurrentScene()->AddGo(zombie);
 
