@@ -13,19 +13,22 @@ Zombie* Zombie::Create(Types zombieType)
         zombie->texturId = "graphics/bloater.png";
         zombie->maxHp = 50;
         zombie->speed = 50;
-        zombie->damage;
-        //
-        //
+        zombie->damage = 30;
+        zombie->attackInterval = 2;
         break;
     case Zombie::Types::Chaser:
         zombie->texturId = "graphics/chaser.png";
         zombie->maxHp = 20;
         zombie->speed = 90;
+        zombie->damage = 20;
+        zombie->attackInterval = 0.5f;
         break;
     case Zombie::Types::Crawler:
         zombie->texturId = "graphics/crawler.png";
         zombie->maxHp = 30;
         zombie->speed = 20;
+        zombie->damage = 10;
+        zombie->attackInterval = 0.5;
         break;
     }
 
