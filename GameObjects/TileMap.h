@@ -12,7 +12,7 @@ protected:
 	int rows = 10;
 	int cols = 10;
 
-	sf::Vector2i cellCount = { 10, 10 };
+	sf::Vector2i cellCount = { 20, 10 };
 	sf::Vector2f cellSize = { 50.f, 50.f };
 
 	sf::Transform transform;

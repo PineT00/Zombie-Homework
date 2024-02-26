@@ -18,7 +18,7 @@ sf::FloatRect SpriteGo::GetGlobalBounds()
 
 void SpriteGo::SetTexture(const std::string& textureId)
 {
-	this->texturId = textureId;
+	this->textureId = textureId;
 
 	sprite.setTexture(RES_MGR_TEXTURE.Get(textureId));
 }
@@ -93,7 +93,7 @@ void SpriteGo::SetFlipY(bool filp)
 
 void SpriteGo::Reset()
 {
-	sprite.setTexture(RES_MGR_TEXTURE.Get(texturId));
+	sprite.setTexture(RES_MGR_TEXTURE.Get(textureId));
 }
 
 void SpriteGo::Draw(sf::RenderWindow& window)

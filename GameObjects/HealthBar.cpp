@@ -47,6 +47,7 @@ void HealthBar::SetPosition(const sf::Vector2f pos)
 void HealthBar::Init()
 {
 	GameObject::Init();
+
 	healthBarCurrSize = healthBarMaxSize;
 	healthBar.setSize(healthBarCurrSize);
 }
@@ -60,13 +61,17 @@ void HealthBar::Reset()
 {
 	GameObject::Reset();
 	healthBarCurrSize = healthBarMaxSize;
+	player = dynamic_cast<Player*>(SCENE_MGR.GetCurrentScene()->FindGo("Player"));
 }
 
 void HealthBar::Update(float dt)
 {
 	GameObject::Update(dt);
 
+	//Utils::Normalize(fixedHp);
 
+	healthBarCurrSize.x = player->hp;
+	healthBar.setSize(healthBarCurrSize);
 
 }
 

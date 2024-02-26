@@ -4,7 +4,7 @@ class SpriteGo : public GameObject
 {
 protected:
 	sf::Sprite sprite;
-	std::string texturId;
+	std::string textureId;
 
 public:
 	SpriteGo(const std::string& name = "");

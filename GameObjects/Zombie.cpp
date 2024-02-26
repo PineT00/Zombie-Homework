@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Zombie.h"
 #include "SceneGame.h"
+#include "SpriteGoEffect.h"
 
 Zombie* Zombie::Create(Types zombieType)
 {
@@ -10,21 +11,21 @@ Zombie* Zombie::Create(Types zombieType)
     switch (zombieType)
     {
     case Zombie::Types::Bloater:
-        zombie->texturId = "graphics/bloater.png";
+        zombie->textureId = "graphics/bloater.png";
         zombie->maxHp = 50;
         zombie->speed = 50;
         zombie->damage = 30;
         zombie->attackInterval = 2;
         break;
     case Zombie::Types::Chaser:
-        zombie->texturId = "graphics/chaser.png";
+        zombie->textureId = "graphics/chaser.png";
         zombie->maxHp = 20;
         zombie->speed = 90;
         zombie->damage = 20;
         zombie->attackInterval = 0.5f;
         break;
     case Zombie::Types::Crawler:
-        zombie->texturId = "graphics/crawler.png";
+        zombie->textureId = "graphics/crawler.png";
         zombie->maxHp = 30;
         zombie->speed = 20;
         zombie->damage = 10;
@@ -43,7 +44,7 @@ Zombie::Zombie(const std::string& name)
 void Zombie::Init()
 {
     SpriteGo::Init();
-    SetTexture(texturId);
+    SetTexture(textureId);
     SetOrigin(Origins::MC);
 }
 
@@ -130,4 +131,19 @@ void Zombie::OnDie()
     isAlive = false;
     SetActive(false);
     sceneGame->RemoveGo(this);
+
+    PlayBloodEffect();
+}
+
+void Zombie::PlayBloodEffect()
+{
+    SpriteGoEffect* effectBlood = new SpriteGoEffect();
+    effectBlood->Init();
+    effectBlood->SetOrigin(Origins::MC);
+    effectBlood->SetTexture("graphics/blood.png");
+    effectBlood->Reset();
+    effectBlood->sortLayer = -1;
+    effectBlood->sortOrder = 1;
+    effectBlood->SetPosition(position);
+    sceneGame->AddGo(effectBlood);
 }

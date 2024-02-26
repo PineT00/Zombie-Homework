@@ -21,6 +21,7 @@
 #include "InputMgr.h"
 #include "ResourceMgr.h"
 #include "SceneMgr.h"
+#include "SoundMgr.h"
 
 #include "Scene.h"
 #include "GameObject.h"

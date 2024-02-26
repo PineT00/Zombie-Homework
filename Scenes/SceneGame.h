@@ -7,10 +7,11 @@ class Player;
 class TileMap;
 class Zombie;
 class ZombieSpawner;
+class ItemSpawner;
 class TileMap;
 class Bullet;
 class HealthBar;
-
+class UiHUD;
 
 
 class SceneGame : public Scene
@@ -18,6 +19,7 @@ class SceneGame : public Scene
 protected:
 	Player* player = nullptr;
 	TileMap* tileMap = nullptr;
+	UiHUD* hud;
 
 	enum class Status
 	{
@@ -28,25 +30,28 @@ protected:
 	};
 	Status currStatus;
 
-	std::vector<ZombieSpawner*> spawner;
+	std::vector<ZombieSpawner*> zombieSpawner;
 	std::list<GameObject*> zombieList;
 
+	std::vector<ItemSpawner*> itemSpawner;
+	std::list<GameObject*> itemList;
+
 	TextGo* uiStates = nullptr;
-	TextGo* uiZombieNum = nullptr;
-	HealthBar* healthBar = nullptr;
+	//TextGo* uiZombieNum = nullptr;
+	//HealthBar* healthBar = nullptr;
 	SpriteGo* title = nullptr;
 
-	std::list<Bullet*> usedBulletList;
-	std::list<Bullet*> unUsedBulletList;
-
-	int currentBullet;
-	int totalBullet;
-
+	SpriteGo* crosshair = nullptr;
 
 public:
 
 	SceneGame(SceneIds id);
 	~SceneGame() override = default;
+
+	UiHUD* GetHUD() const
+	{
+		return hud;
+	};
 
 	const std::list<GameObject*>& GetZombieList() const { return zombieList; }
 

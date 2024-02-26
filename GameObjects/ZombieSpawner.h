@@ -1,23 +1,23 @@
 #pragma once
-#include "GameObject.h"
+#include "Spawner.h"
 #include "Zombie.h"
 
 class SceneGame;
 
 class ZombieSpawner :
-    public GameObject
+    public Spawner
 {
 
 protected:
     std::vector<Zombie::Types> zombieTypes;
 
     float interval = 1.f;
-    float intervalMin;
-    float intervalMax;
+    //float intervalMin;
+    //float intervalMax;
 
     int spawnCount = 1;
-    int spawnCountMin;
-    int spawnCountMax;
+    //int spawnCountMin;
+    //int spawnCountMax;
     
     float radius = 250.f;
     
@@ -29,13 +29,9 @@ public:
     ZombieSpawner(const std::string& name = "");
     ~ZombieSpawner() override = default;
 
-    void Init() override;
-    void Release() override;
+    GameObject* Create() override;
 
     void Reset() override;
-    void Update(float dt) override;
-
-
 
 };
 

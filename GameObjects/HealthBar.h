@@ -12,8 +12,8 @@ public:
 	Player* player;
 
 	sf::RectangleShape healthBar;
-	sf::Vector2f healthBarMaxSize;
-	sf::Vector2f healthBarCurrSize;
+	sf::Vector2f healthBarMaxSize = { 100, 10 };
+	sf::Vector2f healthBarCurrSize = { 100, 10 };
 
 	HealthBar(const std::string& name = "");
 

@@ -4,6 +4,7 @@
 //class TileMap;
 class SceneGame;
 class Zombie;
+class Item;
 
 class Player : public SpriteGo
 {
@@ -30,8 +31,11 @@ protected:
 public:
     sf::FloatRect stageBounds{ { 0.f, 0.f }, { 500.f, 500.f } };
 
-    float hpMax = 300.f;
-    float hp;
+    float hpMax = 400.f;
+    float hp = hpMax;
+    int maxAmmo = 12;
+    int ammo = maxAmmo;
+    int magazine = 0;
 
     Player(const std::string& name = "");
     ~Player() override = default;
@@ -53,6 +57,8 @@ public:
 
     void Fire();
 
+    void Reload();
+
     const sf::Vector2f GetLook() const { return look; }
 
     void OnDamage(int damage);
@@ -60,5 +66,7 @@ public:
     void PlayerDead();
 
     bool GetIsDead() { return isDead; }
+
+    void OnItem(Item* item);
 };
 

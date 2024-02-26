@@ -6,17 +6,17 @@
 #include "TileMap.h"
 #include "Zombie.h"
 #include "ZombieSpawner.h"
+#include "ItemSpawner.h"
 #include "Bullet.h"
 #include "UiScore.h"
 #include "HealthBar.h"
+#include "UiHUD.h"
 
 
 SceneGame::SceneGame(SceneIds id)
     :Scene(id)
 {
 }
-
-
 
 sf::Vector2f SceneGame::ClampByTileMap(const sf::Vector2f& point)
 {
@@ -27,6 +27,7 @@ sf::Vector2f SceneGame::ClampByTileMap(const sf::Vector2f& point)
 
 void SceneGame::Init()
 {
+
     player = new Player("Player");
     AddGo(player);
  
@@ -35,26 +36,28 @@ void SceneGame::Init()
     tileMap->sortLayer = -1; 
     //AddGo에 넣은 정렬 정상작동. 배경을 나중에 그려도 sortingLayer를 바꾸면 아래에 출력됨.
 
-    //ZombieSpawner* spawner = new ZombieSpawner();
-    spawner.push_back(new ZombieSpawner());
-    spawner.push_back(new ZombieSpawner());
-    for (auto s : spawner)
+    crosshair = new SpriteGo("Crosshair");
+    crosshair->SetTexture("graphics/crosshair.png");
+    crosshair->SetOrigin(Origins::MC);
+    crosshair->sortLayer = -1;
+    AddGo(crosshair, Ui);
+
+
+    zombieSpawner.push_back(new ZombieSpawner());
+    zombieSpawner.push_back(new ZombieSpawner());
+    for (auto s : zombieSpawner)
     {
         s->SetPosition(Utils::RandomOnUnitCircle() * 250.f);
         AddGo(s);
     }
 
-
-    UiScore* scoreUi = new UiScore("Ui Score");
-    scoreUi->Set(RES_MGR_FONT.Get("fonts/zombiecontrol.ttf"), "asdad", 50, sf::Color::White);
-    //scoreUi->SetPosition({ -1920.f * 0.5f, -1080 * 0.5f });
-    AddGo(scoreUi, Ui);
-
-    healthBar = new HealthBar("Health Bar");
-    healthBar->healthBarMaxSize = { 400.f, 80.f };
-    healthBar->SetOrigin(Origins::MC);
-    healthBar->SetPosition({ 1920.f * 0.5 - 200, 1000 });
-    AddGo(healthBar, Ui);
+    itemSpawner.push_back(new ItemSpawner());
+    itemSpawner.push_back(new ItemSpawner());
+    for (auto m : itemSpawner)
+    {
+        m->SetPosition(Utils::RandomOnUnitCircle() * 10.f);
+        AddGo(m);
+    }
 
     uiStates = new TextGo("Game State");
     uiStates->Set(RES_MGR_FONT.Get("fonts/zombiecontrol.ttf"), "asda", 150, sf::Color::White);
@@ -63,12 +66,8 @@ void SceneGame::Init()
     AddGo(uiStates, Ui);
     uiStates->sortLayer = 1;
 
-    uiZombieNum = new TextGo("Zombie Number");
-    uiZombieNum->Set(RES_MGR_FONT.Get("fonts/zombiecontrol.ttf"), "Zombie : ", 50, sf::Color::White);
-    uiZombieNum->SetOrigin(Origins::BR);
-    uiZombieNum->SetPosition({ 1920.f, 1080.f });
-    AddGo(uiZombieNum, Ui);
-
+    hud = new UiHUD("HUD");
+    AddGo(hud, Ui);
 
     title = new SpriteGo("titleScene");
     title->SetTexture("graphics/background.png");
@@ -84,6 +83,8 @@ void SceneGame::Release()
 
 void SceneGame::Enter()
 {
+    FRAMEWORK.GetWindow().setMouseCursorVisible(false);
+
     Scene::Enter();
 
     sf::Vector2f windowSize = (sf::Vector2f)FRAMEWORK.GetWindowSize();
@@ -102,12 +103,19 @@ void SceneGame::Enter()
 
     player->SetPosition({ 0.f, 0.f });
 
+    hud->SetScore(0);
+    hud->SetHiScore(0);
+    hud->SetHp(300, 300);
+    hud->SetWave(1);
+    hud->SetZombieCount(0);
+
     SetStatus(Status::Awake);
 }
 
 void SceneGame::Exit()
 {
     Scene::Exit();
+    FRAMEWORK.GetWindow().setMouseCursorVisible(true);
 }
 
 
@@ -146,6 +154,10 @@ void SceneGame::UpdateGame(float dt)
 {
     FindGoAll("Zombie", zombieList, Layers::World);
 
+    //Scene::Update(dt);
+
+    crosshair->SetPosition(ScreenToUi((sf::Vector2i)InputMgr::GetMousePos()));
+
     if (InputMgr::GetKeyDown(sf::Keyboard::Space))
     {
         //테스트. 스페이스를 누르면 배경의 레이어가 위로 올라온다
@@ -154,6 +166,11 @@ void SceneGame::UpdateGame(float dt)
         ResortGo(tileMap);
     }
     
+    //hud->SetHp(player->hp, player->hpMax);
+    hud->SetAmmo(player->ammo, player->magazine);
+
+    hud->SetZombieCount(FindGoAll("Zombie", zombieList, Layers::World));
+
     if (player->GetIsDead())
     {
         SetStatus(Status::GameOver);

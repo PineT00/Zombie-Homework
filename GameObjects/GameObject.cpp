@@ -47,4 +47,5 @@ void GameObject::FixedUpdate(float dt)
 
 void GameObject::Draw(sf::RenderWindow& window)
 {
+
 }
