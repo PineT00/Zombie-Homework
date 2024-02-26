@@ -241,11 +241,7 @@ void SceneGame::SetStatus(Status newStatus)
     case Status::Game:
         if (prevStatus == Status::GameOver)
         {
-            score = 0;
-            wave = 0;
-            hud->SetScore(score);
-            hud->SetWave(wave);
-            zombieList.clear();
+            hud->Reset();
         }
         uiStates->SetActive(false);
         title->SetActive(false);

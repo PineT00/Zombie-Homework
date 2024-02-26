@@ -55,12 +55,12 @@ void SoundMgr::Update(float dt)
 		}
 	}
 
-	if (PlayBgm)
-	{
-		float percent = fadeTimer / fadeDuration;
-		bgmVolume = bgmVolume - percent * dt;
-		bgm[0].setVolume(bgmVolume);
-	}
+	//if (PlayBgm)
+	//{
+	//	float percent = fadeTimer / fadeDuration;
+	//	bgmVolume = bgmVolume - percent * dt;
+	//	bgm[0].setVolume(bgmVolume);
+	//}
 }
 
 void SoundMgr::PlayBgm(std::string id, bool crossFade)
