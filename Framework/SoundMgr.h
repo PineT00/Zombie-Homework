@@ -22,7 +22,7 @@ private:
 
 
 	float sfxVolume = 100.f;
-	float bgmVolume = 100.f;
+	float bgmVolume = 50.f;
 
 public:
 	void SetSfxVolume(float v) { sfxVolume = v; }

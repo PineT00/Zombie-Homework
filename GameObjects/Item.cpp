@@ -11,7 +11,7 @@ Item* Item::Create(Types t, int v)
 	{
 	case Types::Ammo:
 		newItem->textureId = "graphics/ammo_pickup.png";
-		newItem->value = 20;
+		newItem->value = 10;
 		break;
 
 	case Types::Health:

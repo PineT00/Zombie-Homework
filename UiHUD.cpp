@@ -40,7 +40,8 @@ void UiHUD::SetWave(int w)
 
 void UiHUD::SetZombieCount(int count)
 {
-	textZombieCount.SetString(formatZombieCount + std::to_string(count));
+	zombieCount = count;
+	textZombieCount.SetString(formatZombieCount + std::to_string(zombieCount));
 }
 
 void UiHUD::Init()

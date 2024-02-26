@@ -54,11 +54,37 @@ void SoundMgr::Update(float dt)
 			}
 		}
 	}
+
+	if (PlayBgm)
+	{
+		float percent = fadeTimer / fadeDuration;
+		bgmVolume = bgmVolume - percent * dt;
+		bgm[0].setVolume(bgmVolume);
+	}
 }
 
 void SoundMgr::PlayBgm(std::string id, bool crossFade)
 {
+	if (waiting.empty())
+	{
+		bgm[0] = *playing.front();
+		playing.pop_front();
+
+	}
+	else
+	{
+		bgm[0] = *waiting.front();
+		waiting.pop_front();
+	}
+	bgm[0].stop();
+
+	bgm[1].setBuffer(RES_MGR_SOUND_BUFFER.Get(id));
+	bgm[1].setLoop(true);
+	bgm[1].setVolume(bgmVolume);
+	bgm[1].play();
+	playing.push_back(&bgm[1]);
 }
+
 
 void SoundMgr::StopBgm()
 {

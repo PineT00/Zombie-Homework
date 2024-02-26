@@ -32,6 +32,7 @@ protected:
 	sf::Vector2f referenceResolution = { 1920, 1080 };
 	sf::Vector2f resolution = referenceResolution;
 	
+	int zombieCount = 0;
 
 public:
 	UiHUD(const std::string& name = "");
@@ -46,6 +47,7 @@ public:
 	void SetHp(int hp, int max);
 	void SetWave(int w);
 	void SetZombieCount(int count);
+	int GetZombieCount() { return zombieCount; }
 
 	void Init() override;
 	void Release() override;

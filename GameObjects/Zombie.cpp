@@ -131,6 +131,7 @@ void Zombie::OnDie()
     isAlive = false;
     SetActive(false);
     sceneGame->RemoveGo(this);
+    sceneGame->score += 10;
 
     PlayBloodEffect();
 }

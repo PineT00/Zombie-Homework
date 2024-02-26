@@ -28,6 +28,10 @@ protected:
     float noDamageInterval = 0.5f;
     float noDamageTime = 0.f;
 
+    bool isReloading = false;
+    float reloadTime = 1.f;
+    float reloadTimer = 0.f;
+
 public:
     sf::FloatRect stageBounds{ { 0.f, 0.f }, { 500.f, 500.f } };
 

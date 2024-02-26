@@ -15,14 +15,14 @@ protected:
     //float intervalMin;
     //float intervalMax;
 
-    int spawnCount = 1;
+    int spawnCount = 5;
     //int spawnCountMin;
     //int spawnCountMax;
     
-    float radius = 250.f;
+    float radius = 500.f;
     
     float timer = 0.f;
-    
+
     SceneGame* sceneGame;
 
 public:
@@ -32,6 +32,10 @@ public:
     GameObject* Create() override;
 
     void Reset() override;
+
+    void WaveStart();
+
+    void Update(float dt) override;
 
 };
 

@@ -43,7 +43,7 @@ void SceneGame::Init()
     AddGo(crosshair, Ui);
 
 
-    zombieSpawner.push_back(new ZombieSpawner());
+    //zombieSpawner.push_back(new ZombieSpawner());
     zombieSpawner.push_back(new ZombieSpawner());
     for (auto s : zombieSpawner)
     {
@@ -106,8 +106,10 @@ void SceneGame::Enter()
     hud->SetScore(0);
     hud->SetHiScore(0);
     hud->SetHp(300, 300);
-    hud->SetWave(1);
+    hud->SetWave(wave);
     hud->SetZombieCount(0);
+
+    SOUND_MGR.PlayBgm("sound/bossFight.mp3");
 
     SetStatus(Status::Awake);
 }
@@ -143,10 +145,10 @@ void SceneGame::Update(float dt)
 void SceneGame::UpdateAwake(float dt)
 {
     worldView.setCenter(player->GetPosition());
-
     if (InputMgr::GetKeyDown(sf::Keyboard::Enter))
     {
         SetStatus(Status::Game);
+        SOUND_MGR.PlayBgm("sound/scaryBGM.mp3");
     }
 }
 
@@ -158,6 +160,8 @@ void SceneGame::UpdateGame(float dt)
 
     crosshair->SetPosition(ScreenToUi((sf::Vector2i)InputMgr::GetMousePos()));
 
+    hud->SetScore(score);
+
     if (InputMgr::GetKeyDown(sf::Keyboard::Space))
     {
         //테스트. 스페이스를 누르면 배경의 레이어가 위로 올라온다
@@ -167,9 +171,15 @@ void SceneGame::UpdateGame(float dt)
     }
     
     //hud->SetHp(player->hp, player->hpMax);
-    hud->SetAmmo(player->ammo, player->magazine);
 
     hud->SetZombieCount(FindGoAll("Zombie", zombieList, Layers::World));
+
+    if (hud->GetZombieCount() == 0)
+    {
+        isWaveCleared = true;
+        wave += 1;
+        hud->SetWave(wave);
+    }
 
     if (player->GetIsDead())
     {
@@ -189,6 +199,8 @@ void SceneGame::UpdateGameOver(float dt)
         player->Reset();
         player->SetPosition({ 0.f, 0.f });
     }
+    highScore = score;
+    hud->SetHiScore(highScore);
 }
 
 void SceneGame::UpdatePause(float dt)
@@ -227,9 +239,14 @@ void SceneGame::SetStatus(Status newStatus)
         FRAMEWORK.SetTimeScale(0.f);
         break;
     case Status::Game:
-        /*if (prevStatus == Status::GameOver)
+        if (prevStatus == Status::GameOver)
         {
-        }*/
+            score = 0;
+            wave = 0;
+            hud->SetScore(score);
+            hud->SetWave(wave);
+            zombieList.clear();
+        }
         uiStates->SetActive(false);
         title->SetActive(false);
         FRAMEWORK.SetTimeScale(1.f);

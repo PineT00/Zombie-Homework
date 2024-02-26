@@ -25,4 +25,33 @@ void ZombieSpawner::Reset()
 	zombieTypes.push_back(Zombie::Types::Crawler);
 	zombieTypes.push_back(Zombie::Types::Crawler);
 
+	sceneGame = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrentScene());
+}
+
+void ZombieSpawner::WaveStart()
+{
+	for (int i = 0; i < spawnCount; ++i)
+	{
+		timer = 0.f;
+		sf::Vector2f pos = position + Utils::RandomInUnitCircle() * radius;
+
+		if (sceneGame != nullptr)
+		{
+			pos = sceneGame->ClampByTileMap(pos);
+		}
+		GameObject* newGo = Create();
+		newGo->Init();
+		newGo->Reset();
+		newGo->SetPosition(pos);
+		SCENE_MGR.GetCurrentScene()->AddGo(newGo);
+	}
+}
+
+void ZombieSpawner::Update(float dt)
+{	
+	if (sceneGame->isWaveCleared)
+	{
+		WaveStart();
+		sceneGame->isWaveCleared = false;
+	}
 }

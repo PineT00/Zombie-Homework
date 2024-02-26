@@ -43,7 +43,13 @@ protected:
 
 	SpriteGo* crosshair = nullptr;
 
+
+
 public:
+	bool isWaveCleared = false;
+	int wave = 0;
+	int score = 0;
+	int highScore = 0;
 
 	SceneGame(SceneIds id);
 	~SceneGame() override = default;
