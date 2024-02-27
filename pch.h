@@ -22,7 +22,9 @@
 #include "ResourceMgr.h"
 #include "SceneMgr.h"
 #include "SoundMgr.h"
+#include "DataTableMgr.h"
+
 
 #include "Scene.h"
 #include "GameObject.h"
-
+#include "StringTable.h"

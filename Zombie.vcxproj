@@ -137,6 +137,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DataTable.cpp" />
+    <ClCompile Include="DataTableMgr.cpp" />
     <ClCompile Include="GameObjects\Bullet.cpp" />
     <ClCompile Include="Framework\Framework.cpp" />
     <ClCompile Include="Framework\InputMgr.cpp">
@@ -173,9 +175,12 @@
     <ClCompile Include="GameObjects\Spawner.cpp" />
     <ClCompile Include="Framework\SoundMgr.cpp" />
     <ClCompile Include="SpriteGoEffect.cpp" />
+    <ClCompile Include="StringTable.cpp" />
     <ClCompile Include="UiHUD.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DataTable.h" />
+    <ClInclude Include="DataTableMgr.h" />
     <ClInclude Include="GameObjects\Bullet.h" />
     <ClInclude Include="Framework\Framework.h" />
     <ClInclude Include="Framework\Defines.h" />
@@ -189,6 +194,7 @@
     <ClInclude Include="ItemSpawner.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="GameObjects\Player.h" />
+    <ClInclude Include="rapidcsv.h" />
     <ClInclude Include="Scenes\SceneGame.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Framework\SceneMgr.h" />
@@ -206,6 +212,7 @@
     <ClInclude Include="GameObjects\Spawner.h" />
     <ClInclude Include="Framework\SoundMgr.h" />
     <ClInclude Include="SpriteGoEffect.h" />
+    <ClInclude Include="StringTable.h" />
     <ClInclude Include="UiHUD.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

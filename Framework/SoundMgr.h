@@ -16,7 +16,7 @@ private:
 	float fadeDuration = 5.f;
 	float fadeTimer = 0.f;
 
-	float fadeSpeed = 1.f;
+	float fadeSpeed = 0.25f;
 	float fadeLimit = 0.5f;
 
 

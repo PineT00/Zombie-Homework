@@ -11,6 +11,7 @@ void Framework::Init(int width, int height, const std::string& name)
     window.create(sf::VideoMode(windowSize.x, windowSize.y), name);
 
     InputMgr::Init();
+    DT_MGR.Init();
     SOUND_MGR.Init();
     SCENE_MGR.Init();
     
@@ -61,6 +62,8 @@ void Framework::Release()
 {
     SCENE_MGR.Release();
     SOUND_MGR.Release();
+
+    DT_MGR.Release();
 
     RES_MGR_TEXTURE.UnloadAll();
     RES_MGR_FONT.UnloadAll();

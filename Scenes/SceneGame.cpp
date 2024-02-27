@@ -109,7 +109,7 @@ void SceneGame::Enter()
     hud->SetWave(wave);
     hud->SetZombieCount(0);
 
-    SOUND_MGR.PlayBgm("sound/bossFight.mp3");
+    SOUND_MGR.PlayBgm("sound/bossFight.mp3", false);
 
     SetStatus(Status::Awake);
 }
@@ -149,6 +149,7 @@ void SceneGame::UpdateAwake(float dt)
     {
         SetStatus(Status::Game);
         SOUND_MGR.PlayBgm("sound/scaryBGM.mp3", true);
+
     }
 }
 
@@ -157,18 +158,11 @@ void SceneGame::UpdateGame(float dt)
     FindGoAll("Zombie", zombieList, Layers::World);
 
     //Scene::Update(dt);
+    worldView.setCenter(player->GetPosition());
 
     crosshair->SetPosition(ScreenToUi((sf::Vector2i)InputMgr::GetMousePos()));
 
     hud->SetScore(score);
-
-    if (InputMgr::GetKeyDown(sf::Keyboard::Space))
-    {
-        //테스트. 스페이스를 누르면 배경의 레이어가 위로 올라온다
-        TileMap* tileMap = dynamic_cast<TileMap*>(FindGo("Background"));
-        tileMap->sortLayer *= -1;
-        ResortGo(tileMap);
-    }
     
     //hud->SetHp(player->hp, player->hpMax);
 
