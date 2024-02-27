@@ -133,3 +133,16 @@ float Utils::Angle(const sf::Vector2f& vec)
 	return RadianToDegree(std::atan2f(vec.y, vec.x));
 }
 
+float Utils::Lerp(float min, float max, float t)
+{
+	t = Clamp(t, 0.f, 1.f);
+	float v = min + (max - min) * t;
+	return v;
+}
+
+sf::Vector2f Utils::Lerp(const sf::Vector2f& min, const sf::Vector2f& max, float t)
+{
+	t = Clamp(t, 0.f, 1.f);
+	return sf::Vector2f(Lerp(min.x, max.x, t), Lerp(min.y, max.y, t));
+}
+

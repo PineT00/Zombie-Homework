@@ -148,7 +148,7 @@ void SceneGame::UpdateAwake(float dt)
     if (InputMgr::GetKeyDown(sf::Keyboard::Enter))
     {
         SetStatus(Status::Game);
-        SOUND_MGR.PlayBgm("sound/scaryBGM.mp3");
+        SOUND_MGR.PlayBgm("sound/scaryBGM.mp3", true);
     }
 }
 
@@ -236,12 +236,14 @@ void SceneGame::SetStatus(Status newStatus)
         title->SetActive(true);
         uiStates->SetString("Press Enter to Start!");
         uiStates->SetActive(true);
-        FRAMEWORK.SetTimeScale(0.f);
+        FRAMEWORK.SetTimeScale(1.f);
         break;
     case Status::Game:
         if (prevStatus == Status::GameOver)
         {
             hud->Reset();
+            score = 0;
+            hud->SetScore(score);
         }
         uiStates->SetActive(false);
         title->SetActive(false);

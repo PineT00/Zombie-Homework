@@ -32,7 +32,6 @@ void Player::Release()
 void Player::Reset()
 {
     SpriteGo::Reset();
-    //tileMap = dynamic_cast<TileMap*>(SCENE_MGR.GetCurrentScene()->FindGo("Background"));
     sceneGame = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrentScene());
 
     SetTexture("graphics/player.png");
@@ -151,7 +150,6 @@ void Player::Fire()
     bullet->Fire(look, bulletSpeed, bulletDamage);
     ammo -= 1;
     sceneGame->AddGo(bullet);
-    std::cout << ammo << std::endl;
 
     SOUND_MGR.PlaySfx("sound/shoot.wav");
 }
@@ -179,7 +177,6 @@ void Player::OnDamage(int damage)
     hp -= damage;
     isNoDamage = true;
     noDamageTime = 0.f;
-    std::cout << hp << std::endl;
 
     sceneGame->GetHUD()->SetHp(hp, hpMax);
 }

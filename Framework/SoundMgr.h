@@ -13,15 +13,18 @@ private:
 	int frontBgmIndex = 0;
 
 	bool isFading = false;
-	float fadeDuration = 1.f;
+	float fadeDuration = 5.f;
 	float fadeTimer = 0.f;
+
+	float fadeSpeed = 1.f;
+	float fadeLimit = 0.5f;
 
 
 	std::list<sf::Sound*> playing;
 	std::list<sf::Sound*> waiting;
 
 
-	float sfxVolume = 100.f;
+	float sfxVolume = 50.f;
 	float bgmVolume = 50.f;
 
 public:
