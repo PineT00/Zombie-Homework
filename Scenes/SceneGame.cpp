@@ -157,8 +157,9 @@ void SceneGame::UpdateGame(float dt)
 {
     FindGoAll("Zombie", zombieList, Layers::World);
 
-    //Scene::Update(dt);
-    worldView.setCenter(player->GetPosition());
+    sf::Vector2f worldViewCenter = worldView.getCenter();
+    worldViewCenter = Utils::Lerp(worldViewCenter, player->GetPosition(), dt * 2.f);
+    worldView.setCenter(worldViewCenter);
 
     crosshair->SetPosition(ScreenToUi((sf::Vector2i)InputMgr::GetMousePos()));
 
@@ -224,7 +225,7 @@ void SceneGame::SetStatus(Status newStatus)
     Status prevStatus = currStatus;
     currStatus = newStatus;
 
-    switch (currStatus)
+    switch (currStatus)   
     {
     case Status::Awake:
         title->SetActive(true);

@@ -38,22 +38,22 @@ void SoundMgr::Release()
 
 void SoundMgr::Update(float dt)
 {
-	if (!playing.empty())
-	{
-		for (auto it = playing.begin(); it != playing.end();)
-		{
-			if ((*it)->getStatus() == sf::SoundSource::Stopped)
-			{
-				waiting.push_back(*it);
-				it = playing.erase(it); //it을 제거하고 it의 다음요소를 반환한다.
-				//std::cout << "Test 사운드 waiting list로 이동." << std::endl;
-			}
-			else
-			{
-				it++;
-			}
-		}
-	}
+	//if (!playing.empty())
+	//{
+	//	for (auto it = playing.begin(); it != playing.end();)
+	//	{
+	//		if ((*it)->getStatus() == sf::SoundSource::Stopped)
+	//		{
+	//			waiting.push_back(*it);
+	//			it = playing.erase(it); //it을 제거하고 it의 다음요소를 반환한다.
+	//			//std::cout << "Test 사운드 waiting list로 이동." << std::endl;
+	//		}
+	//		else
+	//		{
+	//			it++;
+	//		}
+	//	}
+	//}
 
 	//if (isFading)
 	//{
@@ -72,27 +72,14 @@ void SoundMgr::Update(float dt)
 	//}
 
 
-	if (InputMgr::GetKeyDown(sf::Keyboard::Num1))
-	{
-		bgmVolume = 0;
-	}
-	if (InputMgr::GetKeyDown(sf::Keyboard::Num2))
-	{
-		bgmVolume = 50;
-	}
-	if (InputMgr::GetKeyDown(sf::Keyboard::Num3))
-	{
-		bgmVolume = 100;
-	}
-
 	if (isFading)
 	{
 		bool isEndBack = false;
 		bool isFrontBack = false;
 
 		int backBgmIndex = (frontBgmIndex == 1) ? 0 : 1;
-
-		float backVolume = Utils::Lerp(backVolume = 1, 0.f, dt * fadeSpeed);
+		float backVolume = bgm[backBgmIndex].getVolume();
+		backVolume = Utils::Lerp(backVolume, 0.f, dt * fadeSpeed);
 		bgm[backBgmIndex].setVolume(backVolume);
 		if (std::abs(backVolume) < fadeLimit)
 		{
@@ -104,8 +91,7 @@ void SoundMgr::Update(float dt)
 		float frontVolume = bgm[frontBgmIndex].getVolume();
 		frontVolume = Utils::Lerp(frontVolume, bgmVolume, dt * fadeSpeed);
 		bgm[frontBgmIndex].setVolume(frontVolume);
-
-		if (std::abs(backVolume - frontVolume) < fadeLimit)
+		if (std::abs(bgmVolume - frontVolume) < fadeLimit)
 		{
 			bgm[frontBgmIndex].setVolume(bgmVolume);
 			isFrontBack = true;
@@ -115,9 +101,6 @@ void SoundMgr::Update(float dt)
 		{
 			isFading = false;
 		}
-
-
-
 
 		//fadeTimer += dt;
 		//float volume = bgm[0].getVolume();
@@ -139,7 +122,7 @@ void SoundMgr::PlayBgm(std::string id, bool crossFade)
 	int backBgmIndex = (frontBgmIndex == 1) ? 0 : 1;
 
 	bgm[frontBgmIndex].setBuffer(RES_MGR_SOUND_BUFFER.Get(id));
-	bgm[frontBgmIndex].setVolume(bgmVolume);
+	bgm[frontBgmIndex].setVolume(0.f);
 	bgm[frontBgmIndex].setLoop(true);
 	bgm[frontBgmIndex].play();
 

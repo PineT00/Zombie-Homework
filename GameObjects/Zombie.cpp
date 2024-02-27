@@ -2,37 +2,20 @@
 #include "Zombie.h"
 #include "SceneGame.h"
 #include "SpriteGoEffect.h"
+#include "ZombieTable.h"
+
 
 Zombie* Zombie::Create(Types zombieType)
 {
     Zombie* zombie = new Zombie("Zombie");
     zombie->type = zombieType;
-
-    switch (zombieType)
-    {
-    case Zombie::Types::Bloater:
-        zombie->textureId = "graphics/bloater.png";
-        zombie->maxHp = 50;
-        zombie->speed = 50;
-        zombie->damage = 30;
-        zombie->attackInterval = 2;
-        break;
-    case Zombie::Types::Chaser:
-        zombie->textureId = "graphics/chaser.png";
-        zombie->maxHp = 20;
-        zombie->speed = 90;
-        zombie->damage = 20;
-        zombie->attackInterval = 0.5f;
-        break;
-    case Zombie::Types::Crawler:
-        zombie->textureId = "graphics/crawler.png";
-        zombie->maxHp = 30;
-        zombie->speed = 20;
-        zombie->damage = 10;
-        zombie->attackInterval = 0.5;
-        break;
-    }
-
+    
+    const DataZombie& data = ZOMBIE_TABLE->Get(zombieType);
+    zombie->textureId = data.textureId;
+    zombie->maxHp = data.maxHp;
+    zombie->speed = data.speed;
+    zombie->damage = data.damage;
+    zombie->attackInterval = data.attackInterval;
     return zombie;
 }
 
