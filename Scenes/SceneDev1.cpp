@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "SceneDev1.h"
 #include "rapidcsv.h"
+#include "ZombieTable.h"
 
 SceneDev1::SceneDev1(SceneIds id) : Scene(id)
 {
@@ -23,9 +24,8 @@ void SceneDev1::Release()
 void SceneDev1::Enter()
 {
 	Scene::Enter();
-	//StringTable* st = DT_MGR.Get<StringTable>(DataTable::Types::String);
 
-	std::cout << STRING_TABLE->Get("HI") << std::endl;
+	std::cout << ZOMBIE_TABLE->Get(Zombie::Types::Bloater).nameId << std::endl;
 
 
 }

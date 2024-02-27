@@ -109,7 +109,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>.;.\SFML-2.6.1\include;.\Framework;.\GameObjects;.\Scenes;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;.\SFML-2.6.1\include;.\Framework;.\GameObjects;.\Scenes;.\DataTable;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -137,8 +137,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DataTable.cpp" />
-    <ClCompile Include="DataTableMgr.cpp" />
+    <ClCompile Include="DataTable\DataTable.cpp" />
+    <ClCompile Include="DataTable\DataTableMgr.cpp" />
     <ClCompile Include="GameObjects\Bullet.cpp" />
     <ClCompile Include="Framework\Framework.cpp" />
     <ClCompile Include="Framework\InputMgr.cpp">
@@ -175,12 +175,13 @@
     <ClCompile Include="GameObjects\Spawner.cpp" />
     <ClCompile Include="Framework\SoundMgr.cpp" />
     <ClCompile Include="SpriteGoEffect.cpp" />
-    <ClCompile Include="StringTable.cpp" />
+    <ClCompile Include="DataTable\StringTable.cpp" />
     <ClCompile Include="UiHUD.cpp" />
+    <ClCompile Include="ZombieTable.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DataTable.h" />
-    <ClInclude Include="DataTableMgr.h" />
+    <ClInclude Include="DataTable\DataTable.h" />
+    <ClInclude Include="DataTable\DataTableMgr.h" />
     <ClInclude Include="GameObjects\Bullet.h" />
     <ClInclude Include="Framework\Framework.h" />
     <ClInclude Include="Framework\Defines.h" />
@@ -212,8 +213,9 @@
     <ClInclude Include="GameObjects\Spawner.h" />
     <ClInclude Include="Framework\SoundMgr.h" />
     <ClInclude Include="SpriteGoEffect.h" />
-    <ClInclude Include="StringTable.h" />
+    <ClInclude Include="DataTable\StringTable.h" />
     <ClInclude Include="UiHUD.h" />
+    <ClInclude Include="ZombieTable.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

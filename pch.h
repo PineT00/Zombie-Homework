@@ -10,6 +10,8 @@
 #include <vector>
 #include <list>
 #include <unordered_map>
+#include <string.h>
+
 
 // SFML
 #include <SFML/Graphics.hpp>
