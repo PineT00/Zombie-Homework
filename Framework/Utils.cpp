@@ -21,6 +21,7 @@ sf::FloatRect Utils::ResizeRect(const sf::FloatRect& rect, const sf::Vector2f& d
 	sf::FloatRect newRect = rect;
 	newRect.width += delta.x;
 	newRect.height += delta.y;
+
 	newRect.left -= delta.x * 0.5f;
 	newRect.top -= delta.y * 0.5f;
 
@@ -50,6 +51,18 @@ sf::Vector2f Utils::RandomOnUnitCircle()
 sf::Vector2f Utils::RandomInUnitCircle()
 {
 	return RandomOnUnitCircle() * RandomValue();
+}
+
+sf::Vector2f Utils::RandomInRing(float outRadius, float inRadius)
+{
+	sf::Vector2f pos(0, 0);
+	if (inRadius >= outRadius)
+		return pos;
+	do
+	{
+		pos = RandomInUnitCircle() * outRadius;
+	} while (Magnitude(pos) <= inRadius);
+	return pos;
 }
 
 int Utils::RandomRange(int min, int maxExclude)
@@ -135,6 +148,7 @@ float Utils::Angle(const sf::Vector2f& vec)
 
 float Utils::Lerp(float min, float max, float t)
 {
+	// t: 0.0 ~ 1.0
 	t = Clamp(t, 0.f, 1.f);
 	float v = min + (max - min) * t;
 	return v;
@@ -143,6 +157,6 @@ float Utils::Lerp(float min, float max, float t)
 sf::Vector2f Utils::Lerp(const sf::Vector2f& min, const sf::Vector2f& max, float t)
 {
 	t = Clamp(t, 0.f, 1.f);
+
 	return sf::Vector2f(Lerp(min.x, max.x, t), Lerp(min.y, max.y, t));
 }
-

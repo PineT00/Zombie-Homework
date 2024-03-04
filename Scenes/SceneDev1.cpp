@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "SceneDev1.h"
-#include "rapidcsv.h"
-#include "ZombieTable.h"
+#include "AniTest.h"
+#include "Ground.h"
 
 SceneDev1::SceneDev1(SceneIds id) : Scene(id)
 {
@@ -13,7 +13,13 @@ SceneDev1::~SceneDev1()
 
 void SceneDev1::Init()
 {
-	
+	AddGo(new AniTest());
+	AddGo(new Ground());
+
+	Scene::Init();
+
+
+
 }
 
 void SceneDev1::Release()
@@ -23,11 +29,15 @@ void SceneDev1::Release()
 
 void SceneDev1::Enter()
 {
+	sf::Vector2f windowSize = (sf::Vector2f)FRAMEWORK.GetWindowSize();
+	sf::Vector2f centerPos = windowSize * 0.5f;
+	worldView.setSize(windowSize);
+	worldView.setCenter({ 0.f, 0.f });
+	uiView.setSize(windowSize);
+	uiView.setCenter(centerPos);
+
+
 	Scene::Enter();
-
-	std::cout << ZOMBIE_TABLE->Get(Zombie::Types::Bloater).nameId << std::endl;
-
-
 }
 
 void SceneDev1::Exit()
@@ -39,16 +49,4 @@ void SceneDev1::Update(float dt)
 {
 	Scene::Update(dt);
 
-	if (InputMgr::GetKeyDown(sf::Keyboard::Num1))
-	{
-		STRING_TABLE->Load(Languages::Korean);
-	}
-	if (InputMgr::GetKeyDown(sf::Keyboard::Num2))
-	{
-		STRING_TABLE->Load(Languages::English);
-	}
-	if (InputMgr::GetKeyDown(sf::Keyboard::Space))
-	{
-		std::cout << STRING_TABLE->Get("HI") << std::endl;
-	}
 }

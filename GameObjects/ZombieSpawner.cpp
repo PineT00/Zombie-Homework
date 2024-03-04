@@ -2,14 +2,31 @@
 #include "ZombieSpawner.h"
 #include "SceneGame.h"
 
-ZombieSpawner::ZombieSpawner(const std::string& name)
-	: Spawner(name)
+ZombieSpawner::ZombieSpawner(const std::string& name) : Spawner(name)
 {
 }
+
+
+//void ZombieSpawner::Spawn()
+//{
+//	sf::Vector2f pos = position + Utils::RandomOnUnitCircle() * radius;
+//	if (sceneGame != nullptr)
+//	{
+//		pos = sceneGame->ClampByTileMap(pos);
+//	}
+//	GameObject* newGo = Create();
+//	newGo->Init();
+//	newGo->Reset();
+//	newGo->SetPosition(pos);
+//
+//	SCENE_MGR.GetCurrentScene()->AddGo(newGo);
+//
+//}
 
 GameObject* ZombieSpawner::Create()
 {
 	Zombie::Types zombieType = zombieTypes[Utils::RandomRange(0, zombieTypes.size())];
+
 	return Zombie::Create(zombieType);
 }
 
@@ -18,40 +35,63 @@ void ZombieSpawner::Reset()
 	Spawner::Reset();
 
 	zombieTypes.clear();
-	zombieTypes.push_back(Zombie::Types::Bloater);
 	zombieTypes.push_back(Zombie::Types::Chaser);
 	zombieTypes.push_back(Zombie::Types::Chaser);
+	zombieTypes.push_back(Zombie::Types::Crawler);
 	zombieTypes.push_back(Zombie::Types::Crawler);
 	zombieTypes.push_back(Zombie::Types::Crawler);
 	zombieTypes.push_back(Zombie::Types::Crawler);
 
-	sceneGame = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrentScene());
+
+	interval = 5.f;
+	spawnCount = 1;
+	radius = 250.f;
+	timer = 0.f;
 }
 
-void ZombieSpawner::WaveStart()
+void ZombieSpawner::NextWave(int a)
 {
-	for (int i = 0; i < spawnCount; ++i)
-	{
-		timer = 0.f;
-		sf::Vector2f pos = position + Utils::RandomInUnitCircle() * radius;
 
-		if (sceneGame != nullptr)
-		{
-			pos = sceneGame->ClampByTileMap(pos);
-		}
-		GameObject* newGo = Create();
-		newGo->Init();
-		newGo->Reset();
-		newGo->SetPosition(pos);
-		SCENE_MGR.GetCurrentScene()->AddGo(newGo);
-	}
-}
-
-void ZombieSpawner::Update(float dt)
-{	
-	if (sceneGame->isWaveCleared)
+	if (a > 2 && a <= 4)
 	{
-		WaveStart();
-		sceneGame->isWaveCleared = false;
+		zombieTypes.clear();
+		zombieTypes.push_back(Zombie::Types::Bloater);
+		zombieTypes.push_back(Zombie::Types::Chaser);
+		zombieTypes.push_back(Zombie::Types::Chaser);
+		zombieTypes.push_back(Zombie::Types::Crawler);
+		zombieTypes.push_back(Zombie::Types::Crawler);
+		zombieTypes.push_back(Zombie::Types::Crawler);
+		zombieTypes.push_back(Zombie::Types::Crawler);
+
 	}
+
+	if (a > 4 && a <= 6)
+	{
+		zombieTypes.clear();
+		zombieTypes.push_back(Zombie::Types::Bloater);
+		zombieTypes.push_back(Zombie::Types::Chaser);
+		zombieTypes.push_back(Zombie::Types::Crawler);
+		zombieTypes.push_back(Zombie::Types::Crawler);
+		zombieTypes.push_back(Zombie::Types::Crawler);
+		zombieTypes.push_back(Zombie::Types::Crawler);
+		zombieTypes.push_back(Zombie::Types::Worm);
+		zombieTypes.push_back(Zombie::Types::Worm);
+	}
+
+	if (a > 6)
+	{
+		zombieTypes.clear();
+		zombieTypes.push_back(Zombie::Types::Bloater);
+		zombieTypes.push_back(Zombie::Types::Chaser);
+		zombieTypes.push_back(Zombie::Types::Chaser);
+		zombieTypes.push_back(Zombie::Types::Crawler);
+		zombieTypes.push_back(Zombie::Types::Crawler);
+		zombieTypes.push_back(Zombie::Types::Crawler);
+		zombieTypes.push_back(Zombie::Types::Crawler);
+		zombieTypes.push_back(Zombie::Types::Worm);
+		zombieTypes.push_back(Zombie::Types::Worm);
+		zombieTypes.push_back(Zombie::Types::Worm);
+	}
+
+
 }

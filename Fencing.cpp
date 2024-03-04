@@ -1,52 +1,54 @@
 #include "pch.h"
-#include "Bullet.h"
+#include "Fencing.h"
 #include "SceneGame.h"
 #include "Zombie.h"
+#include "Player.h"
 
-Bullet::Bullet(const std::string& name) : SpriteGo(name)
+Fencing::Fencing(const std::string& name)
+	:SpriteGo(name)
 {
 }
 
-void Bullet::Fire(const sf::Vector2f& dir, float s, int d)
+void Fencing::stingAttack(const sf::Vector2f& dir, int d)
 {
 	direction = dir;
-	speed = s;
 	damage = d;
 
 	SetRotation(Utils::Angle(direction));
 }
 
-void Bullet::Init()
+void Fencing::Init()
 {
 	SpriteGo::Init();
-	SetTexture("graphics/bullet.png");
+	SetTexture("graphics/fencing.png");
 	SetOrigin(Origins::ML);
 
 	hasHitBox = true;
 }
 
-void Bullet::Reset()
+void Fencing::Reset()
 {
 	SpriteGo::Reset();
 
 	sceneGame = dynamic_cast<SceneGame*>(SCENE_MGR.GetCurrentScene());
+	player = dynamic_cast<Player*>(SCENE_MGR.GetCurrentScene()->FindGo("Player"));
+
 }
 
-void Bullet::Update(float dt)
+void Fencing::Update(float dt)
 {
-	SetPosition(position + direction * speed * dt);
+	sprite.setRotation(player->GetPlayerAngle());
 
-	if (sceneGame != nullptr)
+	SetPosition(player->GetPosition());
+	timer += dt;
+	if (timer > interval)
 	{
-		if (!sceneGame->IsInTileMap(position))
-		{
-			SetActive(false);
-			sceneGame->RemoveGo(this);
-		}
+		timer = 0.f;
+		SetActive(false);
 	}
 }
 
-void Bullet::FixedUpdate(float dt)
+void Fencing::FixedUpdate(float dt)
 {
 	const std::list<GameObject*>& list = sceneGame->GetZombieList();
 	for (auto go : list)
@@ -56,13 +58,13 @@ void Bullet::FixedUpdate(float dt)
 
 		if (GetGlobalBounds().intersects(go->GetGlobalBounds()))
 		{
-			SetActive(false);
-			sceneGame->RemoveGo(this);
-
 			Zombie* zombie = dynamic_cast<Zombie*>(go);
 			if (zombie != nullptr)
 				zombie->OnDamage(damage);
-
+		}
+		if (timer > interval)
+		{
+			SetActive(false);
 			break;
 		}
 	}

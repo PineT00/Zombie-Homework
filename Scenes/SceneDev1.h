@@ -3,6 +3,7 @@
 class SceneDev1 : public Scene
 {
 protected:
+	sf::RectangleShape ground;
 
 public:
 	SceneDev1(SceneIds id);
@@ -16,4 +17,3 @@ public:
 
 	void Update(float dt) override;
 };
-

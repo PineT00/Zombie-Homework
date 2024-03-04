@@ -22,7 +22,7 @@
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{e070ef54-ab16-4a0f-8b93-02711f428be1}</ProjectGuid>
-    <RootNamespace>Zombie</RootNamespace>
+    <RootNamespace>SFMLTemplate</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>Zombie</ProjectName>
   </PropertyGroup>
@@ -109,7 +109,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>.;.\SFML-2.6.1\include;.\Framework;.\GameObjects;.\Scenes;.\DataTable;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;.\SFML-2.6.1\include;.\Framework;.\GameObjects;.\Scenes;.\DataTables;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
     </ClCompile>
@@ -137,8 +137,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DataTable\DataTable.cpp" />
-    <ClCompile Include="DataTable\DataTableMgr.cpp" />
+    <ClCompile Include="Animator.cpp" />
+    <ClCompile Include="AniTest.cpp" />
+    <ClCompile Include="Boomerang.cpp" />
+    <ClCompile Include="DataTables\DataTableMgr.cpp" />
+    <ClCompile Include="DataTables\DataTable.cpp" />
+    <ClCompile Include="Fencing.cpp" />
     <ClCompile Include="GameObjects\Bullet.cpp" />
     <ClCompile Include="Framework\Framework.cpp" />
     <ClCompile Include="Framework\InputMgr.cpp">
@@ -148,12 +152,13 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="GameObjects\GameObject.cpp" />
-    <ClCompile Include="GameObjects\TextGo.cpp" />
     <ClCompile Include="GameObjects\Item.cpp" />
-    <ClCompile Include="ItemSpawner.cpp" />
+    <ClCompile Include="GameObjects\ItemSpawner.cpp" />
+    <ClCompile Include="Ground.cpp" />
     <ClCompile Include="main.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Melee.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
@@ -164,24 +169,27 @@
     <ClCompile Include="Scenes\SceneDev1.cpp" />
     <ClCompile Include="Scenes\SceneDev2.cpp" />
     <ClCompile Include="GameObjects\SpriteGo.cpp" />
+    <ClCompile Include="GameObjects\TextGo.cpp" />
     <ClCompile Include="GameObjects\TileMap.cpp" />
-    <ClCompile Include="GameObjects\TargetGo.cpp" />
     <ClCompile Include="GameObjects\Zombie.cpp" />
     <ClCompile Include="GameObjects\ZombieSpawner.cpp" />
-    <ClCompile Include="GameObjects\UiScore.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="GameObjects\HealthBar.cpp" />
     <ClCompile Include="GameObjects\Spawner.cpp" />
+    <ClCompile Include="GameObjects\UiHud.cpp" />
+    <ClCompile Include="GameObjects\SpriteGoEffect.cpp" />
     <ClCompile Include="Framework\SoundMgr.cpp" />
-    <ClCompile Include="SpriteGoEffect.cpp" />
-    <ClCompile Include="DataTable\StringTable.cpp" />
-    <ClCompile Include="UiHUD.cpp" />
-    <ClCompile Include="ZombieTable.cpp" />
+    <ClCompile Include="DataTables\StringTable.cpp" />
+    <ClCompile Include="DataTables\ZombieTable.cpp" />
+    <ClCompile Include="StatusUpgrade.cpp" />
+    <ClCompile Include="Sword.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DataTable\DataTable.h" />
-    <ClInclude Include="DataTable\DataTableMgr.h" />
+    <ClInclude Include="Animator.h" />
+    <ClInclude Include="AniTest.h" />
+    <ClInclude Include="Boomerang.h" />
+    <ClInclude Include="DataTables\DataTableMgr.h" />
+    <ClInclude Include="DataTables\DataTable.h" />
+    <ClInclude Include="DataTables\rapidcsv.h" />
+    <ClInclude Include="Fencing.h" />
     <ClInclude Include="GameObjects\Bullet.h" />
     <ClInclude Include="Framework\Framework.h" />
     <ClInclude Include="Framework\Defines.h" />
@@ -190,32 +198,30 @@
     <ClInclude Include="Framework\Singleton.h" />
     <ClInclude Include="Framework\Utils.h" />
     <ClInclude Include="GameObjects\GameObject.h" />
-    <ClInclude Include="GameObjects\TextGo.h" />
     <ClInclude Include="GameObjects\Item.h" />
-    <ClInclude Include="ItemSpawner.h" />
+    <ClInclude Include="GameObjects\ItemSpawner.h" />
+    <ClInclude Include="Ground.h" />
+    <ClInclude Include="Melee.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="GameObjects\Player.h" />
-    <ClInclude Include="rapidcsv.h" />
     <ClInclude Include="Scenes\SceneGame.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Framework\SceneMgr.h" />
     <ClInclude Include="Scenes\SceneDev1.h" />
     <ClInclude Include="Scenes\SceneDev2.h" />
     <ClInclude Include="GameObjects\SpriteGo.h" />
+    <ClInclude Include="GameObjects\TextGo.h" />
     <ClInclude Include="GameObjects\TileMap.h" />
-    <ClInclude Include="GameObjects\TargetGo.h" />
     <ClInclude Include="GameObjects\Zombie.h" />
     <ClInclude Include="GameObjects\ZombieSpawner.h" />
-    <ClInclude Include="GameObjects\UiScore.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="GameObjects\HealthBar.h" />
     <ClInclude Include="GameObjects\Spawner.h" />
+    <ClInclude Include="GameObjects\UiHud.h" />
+    <ClInclude Include="GameObjects\SpriteGoEffect.h" />
     <ClInclude Include="Framework\SoundMgr.h" />
-    <ClInclude Include="SpriteGoEffect.h" />
-    <ClInclude Include="DataTable\StringTable.h" />
-    <ClInclude Include="UiHUD.h" />
-    <ClInclude Include="ZombieTable.h" />
+    <ClInclude Include="DataTables\StringTable.h" />
+    <ClInclude Include="DataTables\ZombieTable.h" />
+    <ClInclude Include="StatusUpgrade.h" />
+    <ClInclude Include="Sword.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

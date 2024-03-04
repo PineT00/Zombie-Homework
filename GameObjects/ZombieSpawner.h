@@ -4,38 +4,22 @@
 
 class SceneGame;
 
-class ZombieSpawner :
-    public Spawner
+class ZombieSpawner : public Spawner
 {
-
 protected:
-    std::vector<Zombie::Types> zombieTypes;
-
-    float interval = 1.f;
-    //float intervalMin;
-    //float intervalMax;
-
-    int spawnCount = 5;
-    //int spawnCountMin;
-    //int spawnCountMax;
-    
-    float radius = 500.f;
-    
-    float timer = 0.f;
-
-    SceneGame* sceneGame;
+	std::vector<Zombie::Types> zombieTypes;
 
 public:
-    ZombieSpawner(const std::string& name = "");
-    ~ZombieSpawner() override = default;
+	SceneGame* sceneGame = nullptr;
 
-    GameObject* Create() override;
+	ZombieSpawner(const std::string& name = "");
+	~ZombieSpawner() override = default;
 
-    void Reset() override;
+	//void Spawn() override;
 
-    void WaveStart();
+	GameObject* Create() override;
 
-    void Update(float dt) override;
+	void Reset() override;
 
+	void NextWave(int wave);
 };
-

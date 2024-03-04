@@ -15,8 +15,10 @@ class SceneMgr : public Singleton<SceneMgr>
 protected:
 	std::vector<Scene*> scenes;
 
-	SceneIds startScene = SceneIds::SceneGame;
+	SceneIds startScene = SceneIds::SceneDev1;
 	SceneIds currentScene = startScene;
+
+	bool isDeveloperMode = false;
 
 	SceneMgr() = default;
 	virtual ~SceneMgr();
@@ -28,11 +30,11 @@ public:
 	void ChangeScene(SceneIds id);
 
 	Scene* GetCurrentScene() { return scenes[(int)currentScene]; }
+	bool GetDeveloperMode() { return isDeveloperMode; }
 
 	void Update(float dt);
 	void LateUpdate(float dt);
 	void FixedUpdate(float dt);
-
 	void Draw(sf::RenderWindow& window);
 
 	SceneMgr(const SceneMgr&) = delete;

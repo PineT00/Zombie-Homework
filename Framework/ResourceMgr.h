@@ -59,11 +59,12 @@ public:
 		auto it = resources.find(filePath);
 		if (it != resources.end())
 			return *(it->second);
-		
+
 		if (!load || !Load(filePath))
 		{
 			return Empty;
 		}
+
 		return *(resources.find(filePath)->second);
 	}
 

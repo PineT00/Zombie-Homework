@@ -3,9 +3,8 @@
 #include "DataTable.h"
 
 class DataTableMgr : public Singleton<DataTableMgr>
-{ 
+{
 	friend Singleton<DataTableMgr>;
-
 private:
 	DataTableMgr();
 	~DataTableMgr();
@@ -18,7 +17,6 @@ public:
 
 	template<typename T>
 	T* Get(DataTable::Types type);
-
 };
 
 template<typename T>
@@ -26,7 +24,9 @@ inline T* DataTableMgr::Get(DataTable::Types type)
 {
 	auto find = tables.find(type);
 	if (find == tables.end())
+	{
 		return nullptr;
+	}
 	return dynamic_cast<T*>(find->second);
 }
 

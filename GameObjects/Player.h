@@ -1,76 +1,81 @@
 #pragma once
 #include "SpriteGo.h"
 
-//class TileMap;
 class SceneGame;
-class Zombie;
 class Item;
+class UiHud;
+class Melee;
+class Sword;
+class Boomerang;
+class Fencing;
 
 class Player : public SpriteGo
 {
 protected:
-    sf::Vector2f direction = { 0.f, 0.f };
-    sf::Vector2f look = { 1.0f, 0.f };
-    float speed = 300.f;
+	sf::Vector2f direction = { 0.f, 0.f };
+	sf::Vector2f look = { 1.f, 0.f };
+	float angle;
+	float speed = 250.f;
 
-    SceneGame* sceneGame = nullptr;
-    Zombie* zombie = nullptr;
+	int maxHp = 500;
+	int hp;
+	int maxMagazine = 12;
+	int magazine = maxMagazine;
+	int ammo = 0;
 
-    bool isDead = false;
+	bool isAlive = true;
+	bool isNoDamage = false;
+	float noDamageTimer = 0.f;
+	float noDamageInterval = 1.f;
 
-    bool isFiring = false;
-    float fireInterval = 0.1f;
-    float fireTimer = 0.f;
-    float bulletSpeed = 1000.f;
-    int bulletDamage = 10;
+	SceneGame* sceneGame = nullptr;
+	UiHud* uiHud = nullptr;
+	Melee* melee = nullptr;
+	Sword* sword = nullptr;
+	Boomerang* boomerang = nullptr;
+	Fencing* fencing = nullptr;
 
-    bool isNoDamage;
-    float noDamageInterval = 0.5f;
-    float noDamageTime = 0.f;
+	bool isFiring = false;
+	float fireInterval = 0.5f;
+	float fireTimer = 0.f;
+	float bulletSpeed = 1000.f;
+	int bulletDamage = 10;
+	
+	float MeleeSpeed = 0.5f;     //근접 공격 속도
+	int MeleeDamage = 10;          //근접 공격 데미지
 
-    bool isReloading = false;
-    float reloadTime = 1.f;
-    float reloadTimer = 0.f;
+	bool isThrowing = false;
+	float boomerangSpeed = 1000.f;
+	int boomerangDamage = 20;
 
 public:
-    sf::FloatRect stageBounds{ { 0.f, 0.f }, { 500.f, 500.f } };
+	Player(const std::string& name = "");
+	~Player() override = default;
 
-    float hpMax = 400.f;
-    float hp = hpMax;
-    int maxAmmo = 12;
-    int ammo = maxAmmo;
-    int magazine = 0;
+	const int GetPlayerHP() { return hp; }
+	const int GetPlayerMaxHP() { return maxHp; }
+	const int GetPlayerAmmo() { return ammo; }
+	const float GetPlayerAngle() { return angle; }
 
-    Player(const std::string& name = "");
-    ~Player() override = default;
-
-    void Init() override;
-    void Release() override;
-
-    void Reset() override;
-
-    void PlayerMove(float dt);
+	float SetPlayerFireRate(float rateUp) { return fireInterval *= rateUp; }
+	int SetPlayerMaxMagazine(int magazineUp) { return maxMagazine += magazineUp; }
+	int SetPlayerMaxHP(int hpUp) { return maxHp += hpUp; }
+	float SetPlayerSpeed(int speedUp) { return speed += speedUp; }
+	void SetThrowing(bool isThrowing) { this->isThrowing = isThrowing; }
 
 
+	void Init() override;
+	void Release() override;
+	void Reset() override;
+	void Update(float dt) override;
+	void FixedUpdate(float dt) override;
+	void Draw(sf::RenderWindow& window) override;
 
-    void Update(float dt) override;
+	void Fire();
+	// void Attack();
 
-    void FixedUpdate(float dt) override;
-    
-    void Draw(sf::RenderWindow& window) override;
-
-    void Fire();
-
-    void Reload();
-
-    const sf::Vector2f GetLook() const { return look; }
-
-    void OnDamage(int damage);
-
-    void PlayerDead();
-
-    bool GetIsDead() { return isDead; }
-
-    void OnItem(Item* item);
+	void OnDamage(int damage);
+	void OnDie();
+	void OnItem(Item* item);
 };
 

@@ -19,7 +19,6 @@ sf::FloatRect SpriteGo::GetGlobalBounds()
 void SpriteGo::SetTexture(const std::string& textureId)
 {
 	this->textureId = textureId;
-
 	sprite.setTexture(RES_MGR_TEXTURE.Get(textureId));
 }
 
@@ -33,13 +32,13 @@ void SpriteGo::SetPosition(const sf::Vector2f& pos)
 void SpriteGo::Translate(const sf::Vector2f& delta)
 {
 	position += delta;
-	sprite.setPosition(position);
+	SetPosition(position);
 }
 
-void SpriteGo::SetRotation(float r)
+void SpriteGo::SetRotation(const float r)
 {
 	rotation = r;
-	sprite.setRotation(rotation);
+	sprite.setRotation(r);
 }
 
 void SpriteGo::SetOrigin(Origins preset)
@@ -93,10 +92,46 @@ void SpriteGo::SetFlipY(bool filp)
 
 void SpriteGo::Reset()
 {
+	// 씬이 다시 들어왔을 때, 텍스터가 없는 상황이 발생할 수 있으므로...
 	sprite.setTexture(RES_MGR_TEXTURE.Get(textureId));
 }
 
 void SpriteGo::Draw(sf::RenderWindow& window)
 {
 	window.draw(sprite);
+
+	if (hasHitBox && SCENE_MGR.GetDeveloperMode())
+	{
+		sf::RectangleShape globalHitBox;
+		sf::FloatRect globalBound = sprite.getGlobalBounds();
+
+		sf::RectangleShape imageBox;
+
+		sf::RectangleShape localHitBox;
+		sf::FloatRect localBound = sprite.getLocalBounds();
+
+		globalHitBox.setPosition(globalBound.left, globalBound.top);
+		globalHitBox.setSize({ globalBound.width, globalBound.height });
+		globalHitBox.setOutlineColor(sf::Color::Red);
+		globalHitBox.setOutlineThickness(1.f);
+		globalHitBox.setFillColor(sf::Color::Transparent);
+
+		imageBox.setPosition(position);
+		imageBox.setOrigin(origin);
+		imageBox.setRotation(sprite.getRotation());
+		imageBox.setSize({ localBound.width, localBound.height });
+		imageBox.setOutlineColor(sf::Color::Green);
+		imageBox.setOutlineThickness(1.f);
+		imageBox.setFillColor(sf::Color::Transparent);
+
+		localHitBox.setPosition(localBound.left, localBound.top);
+		localHitBox.setSize({ localBound.width, localBound.height });
+		localHitBox.setOutlineColor(sf::Color::Blue);
+		localHitBox.setOutlineThickness(1.f);
+		localHitBox.setFillColor(sf::Color::Transparent);
+
+		window.draw(globalHitBox);
+		window.draw(imageBox);
+		window.draw(localHitBox);
+	}
 }

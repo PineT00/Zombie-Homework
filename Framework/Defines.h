@@ -14,6 +14,5 @@ enum class Sides
 
 enum class Languages
 {
-	Korean,
-	English,
+	Korean, English
 };

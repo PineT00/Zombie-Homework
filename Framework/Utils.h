@@ -13,7 +13,9 @@ public:
 	static float RandomRange(float min, float max);
 	static sf::Vector2f RandomOnUnitCircle();
 	static sf::Vector2f RandomInUnitCircle();
+	static sf::Vector2f RandomInRing(float outRadius, float inRadius);
 	static int RandomRange(int min, int maxExclude);
+
 
 	// Origin
 	static sf::Vector2f SetOrigin(sf::Transformable& obj, Origins originPreset, const sf::FloatRect& rect);
@@ -22,17 +24,17 @@ public:
 	static sf::Vector2f SetOrigin(sf::Shape& obj, Origins originPreset);
 
 	// Math
-	static float SqrMagnitude(const sf::Vector2f& vec); //길이 * 길이
-	static float Magnitude(const sf::Vector2f& vec); // 길이
-	static void Normalize(sf::Vector2f& vec); //벡터의 길이를 1로 바꾼 벡터 반환
-	static sf::Vector2f GetNormal(const sf::Vector2f& vec);
-	static float Distance(const sf::Vector2f& p1, const sf::Vector2f& p2);
+	static float SqrMagnitude(const sf::Vector2f& vec); // 길이의 제곱
+	static float Magnitude(const sf::Vector2f& vec); // 벡터의 길이
+	static void Normalize(sf::Vector2f& vec); // 단위 벡터로 변환
+	static sf::Vector2f GetNormal(const sf::Vector2f& vec); // 단위 벡터를 반환
+	static float Distance(const sf::Vector2f& p1, const sf::Vector2f& p2); // 두 점 사이의 거리
 
 	static float RadianToDegree(float radian);
 	static float DegreeToRadian(float degree);
+
 	static float Angle(const sf::Vector2f& vec);
 
 	static float Lerp(float min, float max, float t);
 	static sf::Vector2f Lerp(const sf::Vector2f& min, const sf::Vector2f& max, float t);
-
 };

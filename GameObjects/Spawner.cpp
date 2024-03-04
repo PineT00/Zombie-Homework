@@ -2,12 +2,32 @@
 #include "Spawner.h"
 #include "SceneGame.h"
 
-Spawner::Spawner(const std::string& name)
-	: GameObject(name)
+Spawner::Spawner(const std::string& name) : GameObject(name)
 {
 }
 
+void Spawner::Spawn()
+{
+	sf::Vector2f pos = position + Utils::RandomInRing(radius, 200.f);
+	if (sceneGame != nullptr)
+	{
+		pos = sceneGame->ClampByTileMap(pos);
+	}
+	GameObject* newGo = Create();
+	newGo->Init();
+	newGo->Reset();
+	newGo->SetPosition(pos);
 
+	SCENE_MGR.GetCurrentScene()->AddGo(newGo);
+}
+
+void Spawner::Spawn(int count)
+{
+	for (int i = 0; i < count; ++i)
+	{
+		Spawn();
+	}
+}
 
 void Spawner::Init()
 {
@@ -22,8 +42,6 @@ void Spawner::Release()
 void Spawner::Reset()
 {
 	GameObject::Reset();
-
-	//È®·üÁ¶Àý
 
 	interval = 1.f;
 	spawnCount = 1;
@@ -41,22 +59,6 @@ void Spawner::Update(float dt)
 	if (timer > interval)
 	{
 		timer = 0.f;
-
-		for (int i = 0; i < spawnCount; ++i)
-		{
-
-			sf::Vector2f pos = position + Utils::RandomInUnitCircle() * radius;
-
-			if (sceneGame != nullptr)
-			{
-				pos = sceneGame->ClampByTileMap(pos);
-			}
-			GameObject* newGo = Create();
-			newGo->Init();
-			newGo->Reset();
-			newGo->SetPosition(pos);
-			SCENE_MGR.GetCurrentScene()->AddGo(newGo);
-
-		}
+		Spawn(spawnCount);
 	}
 }

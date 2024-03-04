@@ -10,8 +10,6 @@ DataTableMgr::DataTableMgr()
 DataTableMgr::~DataTableMgr()
 {
 	Release();
-
-
 }
 
 void DataTableMgr::Init()
@@ -22,9 +20,9 @@ void DataTableMgr::Init()
 	table->Load();
 	tables.insert({ DataTable::Types::String, table });
 
-	table = new ZombieTable(DataTable::Types::Zombie);
-	table->Load();
-	tables.insert({ DataTable::Types::Zombie, table });
+	ZombieTable* zombieTable = new ZombieTable(DataTable::Types::Zombie);
+	zombieTable->Load();
+	tables.insert({ DataTable::Types::Zombie, zombieTable });
 }
 
 void DataTableMgr::Release()
@@ -35,4 +33,3 @@ void DataTableMgr::Release()
 	}
 	tables.clear();
 }
-

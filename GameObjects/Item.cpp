@@ -4,28 +4,28 @@
 
 Item* Item::Create(Types t, int v)
 {
-	Item* newItem = new Item();
+	Item* newItem = new Item("Item");
 	newItem->type = t;
 	newItem->value = v;
+
 	switch (newItem->type)
 	{
 	case Types::Ammo:
 		newItem->textureId = "graphics/ammo_pickup.png";
-		newItem->value = 10;
 		break;
-
 	case Types::Health:
 		newItem->textureId = "graphics/health_pickup.png";
-		newItem->value = 50;
+		break;
+
+	default:
 		break;
 	}
+
 	return newItem;
 }
 
-Item::Item(const std::string& name)
-	:SpriteGo(name)
+Item::Item(const std::string& name) : SpriteGo(name)
 {
-
 }
 
 void Item::Reset()
@@ -47,6 +47,5 @@ void Item::FixedUpdate(float dt)
 		player->OnItem(this);
 		SetActive(false);
 		SCENE_MGR.GetCurrentScene()->RemoveGo(this);
-
 	}
 }

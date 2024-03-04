@@ -12,6 +12,7 @@ SceneMgr::~SceneMgr()
 void SceneMgr::Init()
 {
 	Release();
+
 	scenes.push_back(new SceneGame(SceneIds::SceneGame));
 	scenes.push_back(new SceneDev1(SceneIds::SceneDev1));
 	scenes.push_back(new SceneDev2(SceneIds::SceneDev2));
@@ -46,6 +47,11 @@ void SceneMgr::ChangeScene(SceneIds id)
 
 void SceneMgr::Update(float dt)
 {
+	if (InputMgr::GetKey(sf::Keyboard::P) && InputMgr::GetKeyDown(sf::Keyboard::O))
+	{
+		isDeveloperMode = !isDeveloperMode;
+	}
+
 	scenes[(int)currentScene]->Update(dt);
 }
 

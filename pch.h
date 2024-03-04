@@ -10,8 +10,9 @@
 #include <vector>
 #include <list>
 #include <unordered_map>
-#include <string.h>
-
+#include <queue>
+#include <string>
+#include <fstream>
 
 // SFML
 #include <SFML/Graphics.hpp>
@@ -25,7 +26,6 @@
 #include "SceneMgr.h"
 #include "SoundMgr.h"
 #include "DataTableMgr.h"
-
 
 #include "Scene.h"
 #include "GameObject.h"

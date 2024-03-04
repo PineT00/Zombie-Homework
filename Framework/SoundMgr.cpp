@@ -21,8 +21,8 @@ void SoundMgr::Init(int totalChannels)
 
 void SoundMgr::Release()
 {
-	StopAllSfx();
-	StopBgm();
+	// StopAll();
+	// StopBgm();
 
 	for (auto sound : waiting)
 	{
@@ -38,46 +38,28 @@ void SoundMgr::Release()
 
 void SoundMgr::Update(float dt)
 {
-	//if (!playing.empty())
-	//{
-	//	for (auto it = playing.begin(); it != playing.end();)
-	//	{
-	//		if ((*it)->getStatus() == sf::SoundSource::Stopped)
-	//		{
-	//			waiting.push_back(*it);
-	//			it = playing.erase(it); //it을 제거하고 it의 다음요소를 반환한다.
-	//			//std::cout << "Test 사운드 waiting list로 이동." << std::endl;
-	//		}
-	//		else
-	//		{
-	//			it++;
-	//		}
-	//	}
-	//}
+	for (auto it = playing.begin(); it != playing.end(); )
+	{
+		sf::Sound* sound = *it;
+		if (sound->getStatus() == sf::SoundSource::Stopped)
+		{
+			waiting.push_back(sound);
+			it = playing.erase(it);
+		}
+		else
+		{
+			it++;
+		}
+	}
 
-	//if (isFading)
-	//{
-	//	fadeTimer += dt;
-	//	float fadeIn = bgmVolume * fadeTimer / fadeDuration;
-	//	float fadeOut = bgmVolume - fadeIn;
-
-	//	if (fadeTimer >= fadeDuration)
-	//	{
-	//		bgm[backBgmIndex].stop();
-	//		fadeTimer = 0.f;
-	//		isFading = false;
-	//	}
-	//	bgm[backBgmIndex].setVolume(fadeOut);
-	//	bgm[frontBgmIndex].setVolume(fadeIn);
-	//}
-
-
+	// 크로스 페이드
 	if (isFading)
 	{
 		bool isEndBack = false;
-		bool isFrontBack = false;
+		bool isEndFront = false;
 
 		int backBgmIndex = (frontBgmIndex == 1) ? 0 : 1;
+		
 		float backVolume = bgm[backBgmIndex].getVolume();
 		backVolume = Utils::Lerp(backVolume, 0.f, dt * fadeSpeed);
 		bgm[backBgmIndex].setVolume(backVolume);
@@ -91,56 +73,30 @@ void SoundMgr::Update(float dt)
 		float frontVolume = bgm[frontBgmIndex].getVolume();
 		frontVolume = Utils::Lerp(frontVolume, bgmVolume, dt * fadeSpeed);
 		bgm[frontBgmIndex].setVolume(frontVolume);
-		if (std::abs(bgmVolume - frontVolume) < fadeLimit)
+		if (std::abs(backVolume - frontVolume) < fadeLimit)
 		{
 			bgm[frontBgmIndex].setVolume(bgmVolume);
-			isFrontBack = true;
+			isEndFront = true;
 		}
 
-		if (isEndBack && isFrontBack)
+		if (isEndBack && isEndFront)
 		{
 			isFading = false;
 		}
-
-		//fadeTimer += dt;
-		//float volume = bgm[0].getVolume();
-
-		//bgm[0].setVolume(Utils::Lerp(volume, bgmVolume, dt * 0.5));
-
-		//if (fadeTimer >= fadeDuration)
-		//{
-		//	fadeTimer = 0.f;
-		//	isFading = false;
-		//}
 	}
 }
 
 void SoundMgr::PlayBgm(std::string id, bool crossFade)
 {
-	isFading = true;
 	frontBgmIndex = (frontBgmIndex + 1) % 2;
 	int backBgmIndex = (frontBgmIndex == 1) ? 0 : 1;
 
 	bgm[frontBgmIndex].setBuffer(RES_MGR_SOUND_BUFFER.Get(id));
-	bgm[frontBgmIndex].setVolume(0.f);
-	bgm[frontBgmIndex].setLoop(true);
-	bgm[frontBgmIndex].play();
 
-	/*
-	fadeTimer = 0.f;
-	bgm[0].setBuffer(RES_MGR_SOUND_BUFFER.Get(id));
-	bgm[0].setVolume(bgmVolume);
-	bgm[frontBgmIndex].setLoop(true);
-	bgm[frontBgmIndex].play();
-	
-	int tempIndex = frontBgmIndex;
-	frontBgmIndex = backBgmIndex;
-	backBgmIndex = tempIndex;
-
-	if (crossFade)
+	if(crossFade)
 	{
-		bgm[frontBgmIndex].setVolume(0);
 		isFading = true;
+		bgm[frontBgmIndex].setVolume(0.f);
 	}
 	else
 	{
@@ -148,23 +104,21 @@ void SoundMgr::PlayBgm(std::string id, bool crossFade)
 		bgm[frontBgmIndex].setVolume(bgmVolume);
 	}
 
-	bgm[frontBgmIndex].setBuffer(RES_MGR_SOUND_BUFFER.Get(id));
 	bgm[frontBgmIndex].setLoop(true);
 	bgm[frontBgmIndex].play();
-	*/
 }
-
 
 void SoundMgr::StopBgm()
 {
 	isFading = false;
-	bgm[0].stop();
-	bgm[1].stop();
+	for (auto sound : bgm)
+	{
+		sound.stop();
+	}
 }
 
 void SoundMgr::PlaySfx(std::string id, bool loop)
 {
-
 	PlaySfx(RES_MGR_SOUND_BUFFER.Get(id), loop);
 }
 
@@ -173,7 +127,7 @@ void SoundMgr::PlaySfx(sf::SoundBuffer& buffer, bool loop)
 	sf::Sound* sound = nullptr;
 	if (waiting.empty())
 	{
-		sound = playing.front(); 
+		sound = playing.front();
 		playing.pop_front();
 		sound->stop();
 	}
@@ -182,6 +136,7 @@ void SoundMgr::PlaySfx(sf::SoundBuffer& buffer, bool loop)
 		sound = waiting.front();
 		waiting.pop_front();
 	}
+
 	sound->setBuffer(buffer);
 	sound->setLoop(loop);
 	sound->setVolume(sfxVolume);
@@ -189,7 +144,7 @@ void SoundMgr::PlaySfx(sf::SoundBuffer& buffer, bool loop)
 	playing.push_back(sound);
 }
 
-void SoundMgr::StopAllSfx()
+void SoundMgr::StopAll()
 {
 	for (auto sound : playing)
 	{

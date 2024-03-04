@@ -8,7 +8,7 @@ class Bullet : public SpriteGo
 protected:
 	sf::Vector2f direction;
 	float speed;
-	int damage;
+	int damage = 0;
 
 	SceneGame* sceneGame;
 
@@ -22,6 +22,5 @@ public:
 	void Reset() override;
 	void Update(float dt) override;
 	void FixedUpdate(float dt) override;
-
 };
 

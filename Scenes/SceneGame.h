@@ -1,72 +1,66 @@
 #pragma once
 #include "Scene.h"
 
-class SpriteGo;
-class TextGo;
+class TileMap;
 class Player;
-class TileMap;
-class Zombie;
-class ZombieSpawner;
-class ItemSpawner;
-class TileMap;
-class Bullet;
-class HealthBar;
-class UiHUD;
-
+class Spawner;
+class UiHud;
+class SpriteGo;
+class StatusUpgrade;
+class TextGo;
 
 class SceneGame : public Scene
 {
-protected:
-	Player* player = nullptr;
-	TileMap* tileMap = nullptr;
-	UiHUD* hud;
-
+public:
 	enum class Status
 	{
 		Awake,
+		MeleeSelect,
 		Game,
+		NextWave,
 		GameOver,
-		Pause,
+		Pause
 	};
-	Status currStatus;
 
-	std::vector<ZombieSpawner*> zombieSpawner;
-	std::list<GameObject*> zombieList;
+protected:
+	Status currStatus = Status::Awake;
 
-	std::vector<ItemSpawner*> itemSpawner;
-	std::list<GameObject*> itemList;
-
-	TextGo* uiStates = nullptr;
-	//TextGo* uiZombieNum = nullptr;
-	//HealthBar* healthBar = nullptr;
-	SpriteGo* title = nullptr;
-
+	TileMap* tileMap = nullptr;
+	Player* player = nullptr;
+	UiHud* uiHud = nullptr;
 	SpriteGo* crosshair = nullptr;
+	SpriteGo* title = nullptr;
+	StatusUpgrade* upgradeMenu = nullptr;
+	TextGo* textTitle = nullptr;
 
+	std::list<GameObject*> zombieList;
+	std::list<GameObject*> itemList;
+	Spawner* zombieSpawner = nullptr;
+	Spawner* itemSpawner = nullptr;
 
+	int score = 0;
+	int wave = 1;
+	int zombieNum = 2;
+	int zombieCount = 2;
+	int hiscore = 0;
+
+	int meleeChoice = 0;
 
 public:
-	bool isWaveCleared = false;
-	int wave = 0;
-	int score = 0;
-	int highScore = 0;
-
 	SceneGame(SceneIds id);
 	~SceneGame() override = default;
 
-	UiHUD* GetHUD() const
-	{
-		return hud;
-	};
-
-	const std::list<GameObject*>& GetZombieList() const { return zombieList; }
-
 	bool IsInTileMap(const sf::Vector2f& point);
+	sf::Vector2f ClampByTileMap(const sf::Vector2f point);
+	const std::list<GameObject*>& GetZombieList() const { return zombieList; }
+	sf::Font& font = RES_MGR_FONT.Get("fonts/zombiecontrol.ttf");
 
-	void SetStatus(Status newStatus);
-	Status GetStatus() const { return currStatus; }
+	UiHud* GetHud() const { return uiHud; }
 
-	sf::Vector2f ClampByTileMap(const sf::Vector2f& point);
+	int AddScore(const int score);
+	int MinusZombieNum() { return --zombieNum; }
+
+	int GetMeleeChoice() { return meleeChoice; }
 
 	void Init() override;
 	void Release() override;
@@ -75,10 +69,19 @@ public:
 	void Exit() override;
 
 	void Update(float dt) override;
+	void LateUpdate(float dt) override;
+	void FixedUpdate(float dt) override;
+
 	void UpdateAwake(float dt);
+	void UpdateMeleeSelect(float dt);
 	void UpdateGame(float dt);
+	void UpdateNextWave(float dt);
 	void UpdateGameOver(float dt);
 	void UpdatePause(float dt);
+
 	void Draw(sf::RenderWindow& window) override;
+
+	void SetStatus(Status newStatus);
+	Status GetStatus() { return currStatus; }
 };
 

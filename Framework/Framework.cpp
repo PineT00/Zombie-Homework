@@ -10,11 +10,10 @@ void Framework::Init(int width, int height, const std::string& name)
 
     window.create(sf::VideoMode(windowSize.x, windowSize.y), name);
 
-    InputMgr::Init();
     DT_MGR.Init();
+    InputMgr::Init();
     SOUND_MGR.Init();
     SCENE_MGR.Init();
-    
 }
 
 void Framework::Do()
@@ -29,6 +28,15 @@ void Framework::Do()
 
         fixedDeltaTime += deltaTime;
 
+        fpsTimer += realDeltaTime.asSeconds();
+        fpsCount++;
+        if (fpsTimer >= 1.f)
+        {
+            fpsTimer = 0.f;
+            fps = fpsCount;
+            fpsCount = 0;
+        }
+
         InputMgr::Clear();
         sf::Event event;
         while (window.pollEvent(event))
@@ -39,18 +47,20 @@ void Framework::Do()
             InputMgr::UpdateEvent(event);
         }
         InputMgr::Update(GetDT());
+
         SOUND_MGR.Update(GetDT());
 
-
         SCENE_MGR.Update(GetDT());
-        SCENE_MGR.LateUpdate(GetDT());
 
         float fdt = fixedDeltaTime.asSeconds();
+
         if (fdt > fixedUpdateTime)
         {
             SCENE_MGR.FixedUpdate(fdt);
             fixedDeltaTime = sf::Time::Zero;
         }
+
+        SCENE_MGR.LateUpdate(GetDT());
 
         window.clear();
         SCENE_MGR.Draw(window);
@@ -60,9 +70,8 @@ void Framework::Do()
 
 void Framework::Release()
 {
-    SCENE_MGR.Release();
     SOUND_MGR.Release();
-
+    SCENE_MGR.Release();
     DT_MGR.Release();
 
     RES_MGR_TEXTURE.UnloadAll();

@@ -1,11 +1,9 @@
 #include "pch.h"
 #include "SpriteGoEffect.h"
 
-SpriteGoEffect::SpriteGoEffect(const std::string& name)
-	:SpriteGo(name)
+SpriteGoEffect::SpriteGoEffect(const std::string& name) : SpriteGo(name)
 {
 }
-
 
 void SpriteGoEffect::Reset()
 {

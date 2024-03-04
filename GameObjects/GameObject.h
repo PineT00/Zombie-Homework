@@ -8,7 +8,7 @@ protected:
 	Origins originPreset = Origins::TL;
 	sf::Vector2f origin = { 0.f, 0.f };
 	sf::Vector2f position = { 0.f, 0.f };
-	float rotation = 0.f;
+	float rotation = 0.f; // degree
 	sf::Vector2f scale = { 1.f, 1.f };
 
 	bool isFlipX = false;
@@ -18,30 +18,23 @@ public:
 	GameObject(const std::string& name = "");
 	virtual ~GameObject();
 
-	//정렬방법1.
-	static bool CompareDrawOder(const GameObject& lhs, const GameObject& rhs)
+	static bool CompareDrawOrder(const GameObject& lhs, const GameObject& rhs)
 	{
+		if (lhs.sortLayer != rhs.sortLayer)
 		{
-			if (lhs.sortLayer != rhs.sortLayer)
-			{
-				return lhs.sortLayer < rhs.sortLayer;
-			}
-			return lhs.sortOrder < rhs.sortOrder;
+			return lhs.sortLayer < rhs.sortLayer;
 		}
+		return lhs.sortOrder < rhs.sortOrder;
 	}
-	//포인터 정렬
-	static bool CompareDrawOder(const GameObject* lhs, const GameObject* rhs)
+	static bool CompareDrawOrder(const GameObject* lhs, const GameObject* rhs)
 	{
+		if (lhs->sortLayer != rhs->sortLayer)
 		{
-			if (lhs->sortLayer != rhs->sortLayer)
-			{
-				return lhs->sortLayer < rhs->sortLayer;
-			}
-			return lhs->sortOrder < rhs->sortOrder;
+			return lhs->sortLayer < rhs->sortLayer;
 		}
+		return lhs->sortOrder < rhs->sortOrder;
 	}
 
-	//정렬방법2.
 	bool operator<(const GameObject& rhs)
 	{
 		if (sortLayer != rhs.sortLayer)
@@ -55,7 +48,6 @@ public:
 	virtual void SetActive(bool active) { this->active = active; }
 
 	sf::Vector2f GetOrigin() const { return origin; }
-	sf::Vector2f GetPosition() const { return position; }
 
 	virtual void SetOrigin(Origins preset);
 	virtual void SetOrigin(const sf::Vector2f& newOrigin)
@@ -63,9 +55,10 @@ public:
 		originPreset = Origins::Custom;
 		origin = newOrigin;
 	}
-	
+
+	sf::Vector2f GetPosition() const { return position; }
 	virtual void SetPosition(const sf::Vector2f& pos) { position = pos; }
-	virtual void Translate(const sf::Vector2f& delta) { position += delta; }
+	virtual void Translate(const sf::Vector2f& delta) { position += delta; };
 
 	float GetRotation() const { return rotation; }
 	virtual void SetRotation(float r) { rotation = r; }
@@ -74,17 +67,19 @@ public:
 	virtual void SetScale(const sf::Vector2f& scale);
 
 	bool GetFlipX() const { return isFlipX; }
-	virtual void SetFlipX(bool flip) {  isFlipX = flip ; }
+	virtual void SetFlipX(bool flip) { isFlipX = flip; }
+
+	virtual sf::FloatRect GetLocalBounds() { return sf::FloatRect(); }
+	virtual sf::FloatRect GetGlobalBounds() { return sf::FloatRect(position, { 0.f, 0.f }); }
 
 	bool GetFlipY() const { return isFlipY; }
 	virtual void SetFlipY(bool flip) { isFlipY = flip; }
 
-	virtual sf::FloatRect GetLocalBounds() { return sf::FloatRect(); } //0,0,0,0
-	virtual sf::FloatRect GetGlobalBounds() { return sf::FloatRect(position, {0.f, 0.f}); } //0,0,0,0
-
 	virtual void Init();
 	virtual void Release();
+
 	virtual void Reset();
+
 	virtual void Update(float dt);
 	virtual void LateUpdate(float dt);
 	virtual void FixedUpdate(float dt);

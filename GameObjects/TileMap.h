@@ -1,33 +1,27 @@
 #pragma once
 #include "GameObject.h"
-class TileMap :
-    public GameObject
+class TileMap : public GameObject
 {
 protected:
-    sf::VertexArray va;
+	sf::VertexArray va;
 	std::string spriteSheetId;
 	sf::Texture* texture;
-	TileMap* tilemap;
 
-	int rows = 10;
-	int cols = 10;
-
-	sf::Vector2i cellCount = { 20, 10 };
-	sf::Vector2f cellSize = { 50.f, 50.f };
+	sf::Vector2i cellCount; // 셀의 가로줄, 세로줄 개수
+	sf::Vector2f cellSize; // 단위 셀의 가로, 세로 길이
 
 	sf::Transform transform;
 
 public:
 	TileMap(const std::string& name = "");
 
-	sf::FloatRect GetLocalBounds() override;
-	sf::FloatRect GetGlobalBounds() override;
+	virtual sf::FloatRect GetLocalBounds() override;
+	virtual sf::FloatRect GetGlobalBounds() override;
 
-	const sf::Vector2i GetCellCount() const { return cellCount; }
-	const sf::Vector2f GetCellSize() const { return cellSize; }
+	const sf::Vector2i& GetCellCount() const { return cellCount; }
+	const sf::Vector2f& GetCellSize() const { return cellSize; }
 
-	void Set(sf::Vector2i& count, sf::Vector2f& size);
-
+	void Set(const sf::Vector2i& count, const sf::Vector2f& size);
 	void SetSpriteSheetId(const std::string& id);
 	void UpdateTransform();
 
@@ -36,7 +30,7 @@ public:
 
 	void SetPosition(const sf::Vector2f& pos) override;
 	void Translate(const sf::Vector2f& delta) override;
-	void SetRotation(float r) override;
+	void SetRotation(const float r) override;
 
 	void SetScale(const sf::Vector2f& scale) override;
 
@@ -50,7 +44,5 @@ public:
 
 	void Update(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
-
-
 };
 

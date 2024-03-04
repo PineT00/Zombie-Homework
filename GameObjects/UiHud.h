@@ -3,40 +3,38 @@
 #include "SpriteGo.h"
 #include "TextGo.h"
 
-class SpriteGo;
-class TextGo;
-
-class UiHUD :
-    public GameObject
+class UiHud : public GameObject
 {
 protected:
+	sf::Vector2f referenceResolution = { 1920, 1080 };
+	sf::Vector2f resolution = referenceResolution;
+
 	std::string formatScore = "SCORE: ";
 	std::string formatHighScore = "HIGH SCORE: ";
-	std::string formatAmmo = "{0}/{1}";
+	// std::string formatAmmo = "{0}/{1}";
 	std::string formatWave = "WAVE: ";
 	std::string formatZombieCount = "ZOMBIES: ";
+	std::string formatFps = "FPS: ";
 
-	float textSize = 50.f;
 
 	TextGo textScore;
 	TextGo textHiScore;
 
 	SpriteGo imgAmmoIcon;
 	TextGo textAmmo;
-	sf::RectangleShape gaugeHP;
+	sf::RectangleShape gaugeHp;
 	TextGo textWave;
 	TextGo textZombieCount;
 
-	sf::Vector2f gaugeHpSize = {400.f, 30.f};
+	TextGo textMessage;
 
-	sf::Vector2f referenceResolution = { 1920, 1080 };
-	sf::Vector2f resolution = referenceResolution;
-	
-	int zombieCount = 0;
+	TextGo textFps;
+
+	sf::Vector2f gaugeHpSize = { 500.f, 50.f };
 
 public:
-	UiHUD(const std::string& name = "");
-	~UiHUD() override = default;
+	UiHud(const std::string& name = "");
+	~UiHud() override = default;
 
 	void SetResolution(const sf::Vector2f resolution);
 
@@ -47,16 +45,17 @@ public:
 	void SetHp(int hp, int max);
 	void SetWave(int w);
 	void SetZombieCount(int count);
-	int GetZombieCount() { return zombieCount; }
+
+	void SetMessage(const std::string& msg);
+	void SetMessageActive(bool active);
+
+	void SetFps(int fps);
 
 	void Init() override;
 	void Release() override;
 	void Reset() override;
-
 	void Update(float dt) override;
 	void LateUpdate(float dt) override;
 	void FixedUpdate(float dt) override;
 	void Draw(sf::RenderWindow& window) override;
-
 };
-

@@ -15,6 +15,7 @@ protected:
 
 	sf::RenderWindow window;
 	sf::Vector2i windowSize;
+	float fixedUpdateTime = 1.f / 50.f;
 
 	sf::Clock clock;
 	float timeScale = 1.f;
@@ -24,10 +25,12 @@ protected:
 
 	sf::Time realDeltaTime;
 	sf::Time deltaTime;
-	
+
 	sf::Time fixedDeltaTime;
 
-	float fixedUpdateTime = 1.f / 50.f; //1초당 50번 fixedUpdate를 수행
+	float fpsTimer = 0.f;
+	int fpsCount = 0;
+	int fps = 0;
 
 public:
 	sf::RenderWindow& GetWindow() { return window; }	// !!
@@ -37,9 +40,11 @@ public:
 	float GetTime() const { return time.asSeconds(); }
 	float GetRealDT() const { return realDeltaTime.asSeconds(); }
 	float GetDT() const { return deltaTime.asSeconds(); }
-	
+
 	float GetTimeScale() const { return timeScale; }
 	void SetTimeScale(float scale) { timeScale = scale; }
+
+	int GetFps() const { return fps; }
 
 	virtual void Init(int width, int height, const std::string& name = "Game");
 	virtual void Do();
