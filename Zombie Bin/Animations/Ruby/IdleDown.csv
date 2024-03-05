@@ -1,0 +1,6 @@
+ID,FPS,LOOPTYPE (0:Single 1:Loop 2:PingPong),,
+IdleDown,5,1,,
+,,,,
+TEXTURE ID,LEFT,TOP,WIDTH,HEIGHT
+graphics/RubySheet.png,256,768,256,256
+graphics/RubySheet.png,512,1280,256,256

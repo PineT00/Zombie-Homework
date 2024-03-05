@@ -1,0 +1,9 @@
+ID,STRING
+HI,hi
+TITLE,Zombie Arena
+ZOMBIE_BLOATER_NAME,Zombie 1 name
+ZOMBIE_BLOATER_DESC,Zombie 1 description
+ZOMBIE_CHASER_NAME,Zombie 2 name
+ZOMBIE_CHASER_DESC,Zombie 2 description
+ZOMBIE_CRAWLER_NAME,Zombie 3 name
+ZOMBIE_CRAWLER_DESC,Zombie 3 description
